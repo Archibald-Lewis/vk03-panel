@@ -115,7 +115,7 @@ def main():
         "CFBundleDisplayName": "VK03 副屏监控", "CFBundleExecutable": "VK03Panel",
         "CFBundleIconFile": "VK03Panel", "CFBundleIdentifier": "local.codex.VK03Panel",
         "CFBundleName": "VK03 Panel", "CFBundlePackageType": "APPL",
-        "CFBundleShortVersionString": "1.2.0", "CFBundleVersion": "3",
+        "CFBundleShortVersionString": "1.2.1", "CFBundleVersion": "4",
         "LSMinimumSystemVersion": "26.0", "LSUIElement": True,
         "NSHighResolutionCapable": True, "NSPrincipalClass": "NSApplication",
     })

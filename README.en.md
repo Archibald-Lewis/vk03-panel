@@ -10,9 +10,16 @@ A native macOS monitoring and touch-control panel for the USB display in the VK0
 
 See CPU temperature and frequency, memory use, GPU load and Now Playing information. Use the touchscreen for volume, mute, playback and a press-and-hold screen lock. The interface follows the system appearance and runs from the menu bar.
 
+## Prebuilt app
+
+[Download the DMG](https://github.com/Archibald-Lewis/vk03-panel-macos/releases/latest) · [Installation, signing and compatibility](docs/INSTALL.md)
+
+AMD64 / x86_64 build, tested on an AMD Ryzen 7 9700X + RTX 5070 Hackintosh. Intel CPU machines are unverified. Ad-hoc signed and not notarized.
+
+
 ## Hardware and status
 
-Tested on one x86_64 Hackintosh running macOS 26 Tahoe: display USB `345f:9132`, MS912C controller, `MCVKC03` panel, native `360 × 960` resolution, with touch device `374a:a401`. The verified installation uses 90° landscape orientation. Other touch orientations and Apple Silicon are unverified.
+Tested on an AMD Ryzen 7 9700X (8 cores / 16 threads), GeForce RTX 5070, 32 GB RAM Hackintosh running macOS 26 Tahoe: display USB `345f:9132`, MS912C controller, `MCVKC03` panel, native `360 × 960` resolution, with touch device `374a:a401`. The verified installation uses 90° landscape orientation. Other touch orientations and Apple Silicon are unverified.
 
 This app sends a monitoring dashboard to the display. It does not create an extended macOS desktop. Similar-looking displays may have different controllers; the app checks the chip, EDID and panel model before initializing.
 
