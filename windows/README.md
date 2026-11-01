@@ -16,7 +16,7 @@ CPU 温度与频率、内存、GPU、正在播放的音乐，再加上随手可�
   Segoe UI Variable、Fluent 开关与分段控件，跟随系统深浅色与强调色。
 - **两套副屏主题**，在「外观」页即时切换：
   - `Windows 11`：参考任务管理器性能页，提供 CPU / 内存 / GPU 网格趋势图、实时指标，以及媒体与音量触控条。
-  - `macOS`：还原原版的玻璃卡片、青蓝强调色与 SF 风格图标。
+  - `macOS`：参考控制中心的中性半透明模块、胶囊音量滑条与填充播放图标。
 - 监控数据全部在本机采集：CPU 负载 / 频率、内存用量与内存条信息、NVIDIA GPU 利用率与温度。
 - CPU 温度直接读取 **AMD Ryzen Master SDK** 的处理器传感器；HWiNFO 共享内存与
   LibreHardwareMonitor 作为回退。

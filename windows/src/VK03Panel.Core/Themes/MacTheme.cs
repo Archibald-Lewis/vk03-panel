@@ -4,44 +4,34 @@ using System.Windows.Media;
 
 namespace VK03Panel.Core.Themes;
 
-/// <summary>
-/// Faithful Windows port of the original macOS renderer: same 960×360 layout, same card
-/// geometry, same glass palette and the same information hierarchy.
-/// </summary>
+/// <summary>A compact macOS Control Center-inspired layout with neutral translucent modules.</summary>
 public sealed class MacTheme : IPanelTheme
 {
-    private static readonly Rect MediaCard = new(22, 144, 208, 88);
-    private static readonly Rect CpuCard = new(248, 20, 266, 212);
-    private static readonly Rect MemoryCard = new(532, 20, 194, 212);
-    private static readonly Rect GpuCard = new(744, 20, 194, 212);
-    private static readonly Rect VolumeCard = new(22, 250, 450, 90);
-    private static readonly Rect TransportCard = new(488, 250, 270, 90);
-    private static readonly Rect LockCard = new(774, 250, 164, 90);
-    private static readonly Rect SliderBounds = new(204, 288, 152, 10);
-
-    private static readonly Rect MuteBounds = new(22, 250, 86, 90);
-    private static readonly Rect QuieterBounds = new(108, 250, 84, 90);
-    private static readonly Rect VolumeBounds = new(192, 250, 180, 90);
-    private static readonly Rect LouderBounds = new(372, 250, 100, 90);
-    private static readonly Rect PreviousBounds = new(488, 250, 90, 90);
-    private static readonly Rect PlayBounds = new(578, 250, 90, 90);
-    private static readonly Rect NextBounds = new(668, 250, 90, 90);
-    private static readonly Rect LockBounds = new(774, 250, 164, 90);
-
+    private static readonly Rect ClockCard = new(20, 20, 248, 148);
+    private static readonly Rect MediaCard = new(20, 184, 248, 156);
+    private static readonly Rect CpuCard = new(284, 20, 208, 192);
+    private static readonly Rect MemoryCard = new(508, 20, 208, 192);
+    private static readonly Rect GpuCard = new(732, 20, 208, 192);
+    private static readonly Rect VolumeCard = new(284, 228, 460, 112);
+    private static readonly Rect LockCard = new(760, 228, 180, 112);
+    private static readonly Rect MuteBounds = new(300, 272, 48, 48);
+    private static readonly Rect QuieterBounds = new(352, 272, 48, 48);
+    private static readonly Rect VolumeBounds = new(404, 272, 252, 48);
+    private static readonly Rect LouderBounds = new(664, 272, 56, 48);
+    private static readonly Rect PreviousBounds = new(40, 270, 56, 56);
+    private static readonly Rect PlayBounds = new(116, 270, 56, 56);
+    private static readonly Rect NextBounds = new(192, 270, 56, 56);
+    private static readonly Rect SliderTrack = new(408, 280, 244, 36);
     private static readonly CultureInfo Chinese = CultureInfo.GetCultureInfo("zh-CN");
+    // Use installed fonts only; Apple fonts are not bundled with the Windows app.
+    private static readonly FontFamily MacFont = new("Helvetica Neue, Arial, Microsoft YaHei UI");
 
     public string Id => "mac";
-
     public string DisplayName => "macOS";
-
-    public string Description => "还原原版观感：玻璃卡片、青蓝强调色与 SF 风格图标";
-
+    public string Description => "控制中心风格：中性半透明模块、胶囊音量与填充播放图标";
     public Size DesignSize => new(960, 360);
-
-    public double SliderLeft => SliderBounds.X;
-
-    public double SliderWidth => SliderBounds.Width;
-
+    public double SliderLeft => SliderTrack.X;
+    public double SliderWidth => SliderTrack.Width;
     public Rect Bounds(PanelAction action) => action switch
     {
         PanelAction.Mute => MuteBounds,
@@ -51,264 +41,143 @@ public sealed class MacTheme : IPanelTheme
         PanelAction.Previous => PreviousBounds,
         PanelAction.Play => PlayBounds,
         PanelAction.Next => NextBounds,
-        PanelAction.Lock => LockBounds,
+        PanelAction.Lock => LockCard,
         _ => Rect.Empty,
     };
-
     public PanelAction? HitTest(Point point)
     {
         foreach (var action in Enum.GetValues<PanelAction>())
         {
-            if (action == PanelAction.None)
-            {
-                continue;
-            }
-
             var bounds = Bounds(action);
-            if (!bounds.IsEmpty && bounds.Contains(point))
-            {
-                return action;
-            }
+            if (!bounds.IsEmpty && bounds.Contains(point)) return action;
         }
-
         return null;
     }
 
     public void Draw(PanelViewModel model, DrawingContext dc, Size size)
     {
         var dark = model.DarkMode;
-        var ink = Paint.Brush(dark ? Paint.ColorRgb(0.96, 0.97, 1) : Paint.ColorRgb(0.10, 0.14, 0.22));
-        var secondary = Paint.Brush(dark ? Paint.ColorRgb(0.61, 0.68, 0.79) : Paint.ColorRgb(0.39, 0.45, 0.55));
-        var accent = Paint.Brush(dark ? Paint.ColorRgb(0.31, 0.68, 1) : Paint.ColorRgb(0.02, 0.44, 0.95));
-        var accentColor = dark ? Paint.ColorRgb(0.31, 0.68, 1) : Paint.ColorRgb(0.02, 0.44, 0.95);
-        var cyan = Paint.Brush(dark ? Paint.ColorRgb(0.25, 0.84, 0.83) : Paint.ColorRgb(0.02, 0.60, 0.61));
-        var purple = Paint.Brush(dark ? Paint.ColorRgb(0.72, 0.62, 1) : Paint.ColorRgb(0.52, 0.36, 0.91));
+        var ink = Paint.Brush(dark ? Color.FromRgb(249, 250, 251) : Color.FromRgb(30, 33, 37));
+        var secondary = Paint.Brush(dark ? Color.FromRgb(198, 203, 207) : Color.FromRgb(94, 99, 105));
+        var fill = Paint.Brush(dark ? Color.FromArgb(192, 55, 60, 65) : Color.FromArgb(215, 255, 255, 255));
+        var line = Paint.Stroke(Paint.Brush(dark ? Color.FromArgb(42, 255, 255, 255) : Color.FromArgb(170, 255, 255, 255)), 1);
+        var subtle = Paint.Brush(dark ? Color.FromArgb(26, 255, 255, 255) : Color.FromArgb(16, 0, 0, 0));
+        var blue = Color.FromRgb(10, 132, 255);
+        var purple = Color.FromRgb(175, 82, 222);
+        var green = Color.FromRgb(48, 170, 118);
+        Backdrop(dc, size, dark);
+        foreach (var rect in new[] { ClockCard, MediaCard, CpuCard, MemoryCard, GpuCard, VolumeCard, LockCard })
+            Glass(dc, rect, fill, line, dark);
 
-        DrawBackdrop(dc, size, dark, accentColor);
+        Center(dc, model.Time.ToString("HH:mm", CultureInfo.InvariantCulture), 144, 41, 52, ink, TextWeight.Regular, true);
+        Center(dc, model.Time.ToString("M月d日 dddd", Chinese), 144, 108, 14, secondary);
+        Center(dc, model.Demo ? "演示数据" : model.PanelConnected ? "已连接" : "等待连接", 144, 140, 11, secondary);
 
-        var cardFill = Paint.Brush(dark ? Color.FromArgb(204, 41, 51, 71) : Color.FromArgb(173, 255, 255, 255));
-        var cardStroke = Paint.Stroke(
-            Paint.Brush(dark ? Color.FromArgb(31, 255, 255, 255) : Color.FromArgb(224, 255, 255, 255)),
-            1);
-        var track = Paint.Brush(dark ? Color.FromArgb(33, 255, 255, 255) : Color.FromArgb(33, 64, 89, 128));
-        var cardShadow = Paint.Brush(dark ? Color.FromArgb(38, 0, 0, 0) : Color.FromArgb(14, 0, 0, 0));
+        Metric(dc, CpuCard, "CPU", Number(model.CpuTemperatureCelsius), "°C",
+            model.CpuLoad.HasValue ? $"负载 {Percent(model.CpuLoad)}" : "负载 —",
+            model.CpuFrequencyGhz.HasValue ? $"{model.CpuFrequencyGhz.Value:0.00} GHz" : "频率 —",
+            model.CpuLoadHistory, blue, ink, secondary, MacGlyphs.Cpu, dark);
+        Metric(dc, MemoryCard, "内存", Number(model.MemoryUsedGb, "0.0"), "GB",
+            model.MemoryTotalGb.HasValue ? $"共 {model.MemoryTotalGb.Value:0} GB" : "容量 —",
+            model.MemoryUsedGb.HasValue && model.MemoryTotalGb.HasValue ? $"已用 {Percent(model.MemoryFraction)}" : "用量 —",
+            model.MemoryHistory, purple, ink, secondary, MacGlyphs.Memory, dark);
+        Metric(dc, GpuCard, "GPU", Number(model.GpuLoad * 100), "%",
+            ShortGpu(model.GpuModel), model.GpuTemperatureCelsius.HasValue ? $"{model.GpuTemperatureCelsius.Value:0} °C" : "温度 —",
+            model.GpuLoadHistory, green, ink, secondary, MacGlyphs.Display, dark);
 
-        // Header
-        MacGlyphs.Monitor(dc, SymbolBox(new Point(34, 30), 15), secondary);
-        Paint.Text(dc, "VK03", 48, 20, 12, secondary, TextWeight.SemiBold);
-        dc.DrawEllipse(model.HasLiveMetrics ? cyan : secondary, null, new Point(188.5, 27.5), 2.5, 2.5);
-        Paint.Text(dc, model.DataSourceLabel, 196, 19, 11, secondary);
-
-        Paint.Text(dc, model.Time.ToString("HH:mm", CultureInfo.InvariantCulture), 22, 49, 59, ink, TextWeight.Regular, tabular: true);
-        Paint.Text(dc, model.Time.ToString("ss", CultureInfo.InvariantCulture), 201, 85, 16, secondary, TextWeight.Regular, tabular: true);
-        Paint.Text(dc, model.Time.ToString("M月d日 dddd", Chinese), 26, 120, 13, secondary);
-
-        // Media card
-        Card(dc, MediaCard, 25, cardFill, cardStroke, cardShadow, dark);
-        var artworkBounds = new Rect(34, 156, 64, 64);
+        if (model.PressedAction is { } pressed && pressed != PanelAction.Play)
+        {
+            var rect = Bounds(pressed);
+            if (!rect.IsEmpty) Paint.RoundedRect(dc, Rect.Inflate(rect, -3, -3), 18, subtle);
+        }
+        var art = new Rect(36, 201, 52, 52);
         if (model.Media.Artwork is not null)
-        {
-            Paint.ClipRounded(dc, artworkBounds, 13, () => dc.DrawImage(model.Media.Artwork, artworkBounds));
-        }
+            Paint.ClipRounded(dc, art, 10, () => dc.DrawImage(model.Media.Artwork, art));
         else
         {
-            Paint.RoundedRect(dc, artworkBounds, 13, Paint.Brush(Paint.WithAlpha(accentColor, 0.13)));
-            MacGlyphs.MusicNote(dc, SymbolBox(new Point(66, 188), 29), accent);
+            Paint.RoundedRect(dc, art, 10, subtle);
+            MacGlyphs.MusicNote(dc, Box(62, 227, 24), secondary);
         }
+        Text(dc, string.IsNullOrEmpty(model.Media.Title) ? "暂无播放" : model.Media.Title,
+            102, 207, 15, ink, TextWeight.SemiBold, maxWidth: 150);
+        Text(dc, string.IsNullOrEmpty(model.Media.Artist) ? (model.Media.HasSession ? "未知歌手" : "等待媒体播放") : model.Media.Artist,
+            102, 232, 12, secondary, maxWidth: 150);
+        MacGlyphs.Previous(dc, Box(68, 297, 24), ink);
+        MacGlyphs.Next(dc, Box(220, 297, 24), ink);
+        dc.DrawEllipse(model.PressedAction == PanelAction.Play ? subtle : Paint.Brush(dark ? Colors.White : Color.FromRgb(40, 43, 48)),
+            null, new Point(144, 297), 25, 25);
+        var playInk = model.PressedAction == PanelAction.Play ? ink : Paint.Brush(dark ? Color.FromRgb(40, 43, 48) : Colors.White);
+        if (model.Media.Playing) MacGlyphs.Pause(dc, Box(144, 297, 25), playInk);
+        else MacGlyphs.Play(dc, Box(144, 297, 25), playInk);
+        Paint.Bar(dc, new Rect(36, 262, 216, 2), model.Media.Progress, subtle, secondary);
 
-        Paint.Text(dc, string.IsNullOrEmpty(model.Media.Title) ? "暂无播放" : model.Media.Title, 109, 158, 14, ink, TextWeight.SemiBold, maxWidth: 108);
-        Paint.Text(dc, string.IsNullOrEmpty(model.Media.Artist) ? "音乐与播客" : model.Media.Artist, 109, 182, 11, secondary, maxWidth: 108);
-        Paint.Bar(dc, new Rect(110, 213, 105, 3), model.Media.Progress, track, accent);
+        Text(dc, "声音", 304, 245, 14, ink, TextWeight.SemiBold);
+        Right(dc, model.Muted ? "已静音" : model.Volume.HasValue ? Percent(model.Volume) : "—", 720, 245, 14, secondary);
+        MacGlyphs.Speaker(dc, Box(324, 298, 24), secondary, model.Muted);
+        MacGlyphs.Minus(dc, Box(376, 298, 18), secondary);
+        MacGlyphs.Plus(dc, Box(692, 298, 18), secondary);
+        var fraction = model.Muted ? 0 : Math.Clamp(model.Volume ?? 0, 0, 1);
+        Paint.RoundedRect(dc, SliderTrack, 18, Paint.Brush(dark ? Color.FromArgb(42, 0, 0, 0) : Color.FromArgb(22, 0, 0, 0)));
+        Paint.ClipRounded(dc, SliderTrack, 18, () => dc.DrawRectangle(Paint.Brush(dark ? Colors.White : Color.FromRgb(103, 110, 117)), null,
+            new Rect(SliderTrack.X, SliderTrack.Y, SliderTrack.Width * fraction, SliderTrack.Height)));
+        if (fraction > 0 && fraction < 1)
+            dc.DrawEllipse(Paint.Brush(dark ? Color.FromRgb(232, 232, 234) : Color.FromRgb(126, 132, 138)), null,
+                new Point(SliderTrack.X + SliderTrack.Width * fraction - 6, 298), 2, 7);
 
-        // CPU card
-        Card(dc, CpuCard, 25, cardFill, cardStroke, cardShadow, dark);
-        MacGlyphs.Cpu(dc, SymbolBox(new Point(273, 46), 16), accent);
-        Paint.Text(dc, "CPU", 288, 36, 12, secondary, TextWeight.SemiBold);
-        Paint.Text(dc, string.IsNullOrEmpty(model.CpuModel) ? "等待数据" : model.CpuModel, 270, 66, 20, ink, TextWeight.SemiBold, maxWidth: 224);
-        if (model.PhysicalCores.HasValue && model.LogicalCores.HasValue)
-        {
-            Paint.Text(dc, $"{model.PhysicalCores} 核心 · {model.LogicalCores} 线程", 271, 95, 12, secondary);
-        }
-
-        Paint.Text(dc, Format(model.CpuTemperatureCelsius, "0", "—") + (model.CpuTemperatureCelsius.HasValue ? "°" : string.Empty), 267, 113, 55, ink, TextWeight.Light, tabular: true);
-        Paint.Text(dc, Format(model.CpuFrequencyGhz, "0.00", "—"), 413, 123, 25, accent, TextWeight.Medium, tabular: true);
-        Paint.Text(dc, "GHz", 454, 157, 12, secondary);
-        Paint.Text(dc, "温度", 273, 178, 11, secondary);
-        Paint.Text(dc, "负载", 271, 204, 11, secondary);
-        Paint.Text(dc, FormatPercent(model.CpuLoad), 461, 202, 13, secondary, TextWeight.Medium, tabular: true);
-        Paint.Bar(dc, new Rect(310, 210, 137, 5), model.CpuLoad ?? 0, track, accent);
-
-        // Memory card
-        Card(dc, MemoryCard, 25, cardFill, cardStroke, cardShadow, dark);
-        MacGlyphs.Memory(dc, SymbolBox(new Point(557, 46), 16), purple);
-        Paint.Text(dc, "内存", 574, 36, 12, secondary, TextWeight.SemiBold);
-        Paint.Text(dc, Format(model.MemoryTotalGb, "0", "—"), 552, 69, 43, ink, TextWeight.Light, tabular: true);
-        Paint.Text(dc, "GB", 618, 93, 15, secondary);
-        if (!string.IsNullOrEmpty(model.MemoryModules))
-        {
-            Paint.Text(dc, model.MemoryModules, 555, 122, 13, secondary, TextWeight.Medium);
-        }
-
-        if (!string.IsNullOrEmpty(model.MemorySpeed))
-        {
-            Paint.Text(dc, model.MemorySpeed, 555, 146, 13, secondary);
-        }
-
-        Paint.Text(dc, $"已用 {Format(model.MemoryUsedGb, "0.0", "—")} GB", 555, 181, 13, ink, TextWeight.Medium);
-        Paint.Bar(dc, new Rect(555, 210, 148, 5), model.MemoryFraction, track, purple);
-
-        // GPU card
-        Card(dc, GpuCard, 25, cardFill, cardStroke, cardShadow, dark);
-        MacGlyphs.Display(dc, SymbolBox(new Point(769, 46), 16), cyan);
-        Paint.Text(dc, "GPU", 786, 36, 12, secondary, TextWeight.SemiBold);
-        var gpuModel = (model.GpuModel ?? string.Empty).Replace("NVIDIA ", string.Empty, StringComparison.Ordinal);
-        Paint.Text(dc, gpuModel.Contains("GeForce", StringComparison.Ordinal) ? "GeForce" : "显卡", 767, 78, 13, secondary);
-        Paint.Text(
-            dc,
-            string.IsNullOrEmpty(gpuModel) ? "等待数据" : gpuModel.Replace("GeForce ", string.Empty, StringComparison.Ordinal),
-            765,
-            102,
-            23,
-            ink,
-            TextWeight.SemiBold,
-            maxWidth: 154);
-        Paint.Text(dc, FormatPercent(model.GpuLoad), 764, 143, 40, ink, TextWeight.Light, tabular: true);
-        Paint.Text(dc, "利用率", 767, 189, 11, secondary);
-        if (model.GpuTemperatureCelsius.HasValue)
-        {
-            var gpuTemperature = $"{model.GpuTemperatureCelsius.Value:0}°C";
-            var temperatureWidth = Paint.MeasureText(gpuTemperature, 12, TextWeight.SemiBold);
-            Paint.Text(dc, gpuTemperature, 915 - temperatureWidth, 188, 12, cyan, TextWeight.SemiBold);
-        }
-        Paint.Bar(dc, new Rect(767, 210, 148, 5), model.GpuLoad ?? 0, track, cyan);
-
-        // Control band
-        Card(dc, VolumeCard, 28, cardFill, cardStroke, cardShadow, dark);
-        Card(dc, TransportCard, 28, cardFill, cardStroke, cardShadow, dark);
-        Card(dc, LockCard, 28, cardFill, cardStroke, cardShadow, dark);
-
-        if (model.PressedAction is { } pressed && pressed != PanelAction.None)
-        {
-            var highlight = Bounds(pressed);
-            if (!highlight.IsEmpty)
-            {
-                Paint.RoundedRect(dc, Rect.Inflate(highlight, -5, -5), 23, Paint.Brush(Paint.WithAlpha(accentColor, 0.17)));
-            }
-        }
-
-        MacGlyphs.Speaker(dc, SymbolBox(new Point(65, 287), 29), model.Muted ? accent : ink, model.Muted);
-        Paint.Text(dc, model.Muted ? "已静音" : "静音", 49, 316, 11, secondary);
-
-        var buttonFill = Paint.Brush(dark ? Color.FromArgb(18, 255, 255, 255) : Color.FromArgb(122, 255, 255, 255));
-        Paint.RoundedRect(dc, new Rect(116, 260, 68, 68), 22, buttonFill);
-        MacGlyphs.Minus(dc, SymbolBox(new Point(150, 294), 28), ink);
-        Paint.Bar(dc, SliderBounds, model.Muted ? 0 : model.Volume ?? 0, track, accent);
-        if (model.Volume.HasValue)
-        {
-            var knobX = SliderBounds.X + ((model.Muted ? 0 : Math.Clamp(model.Volume.Value, 0, 1)) * SliderBounds.Width);
-            var knob = new Rect(knobX - 9, 284, 18, 18);
-            Paint.RoundedRect(dc, knob, 9, Paint.Brush(dark ? Paint.ColorRgb(0.90, 0.95, 1) : Colors.White));
-        }
-
-        Paint.Text(
-            dc,
-            model.Volume.HasValue
-                ? $"音量 {(model.Volume.Value * 100).ToString("0", CultureInfo.InvariantCulture)}%"
-                : "音量 —",
-            247,
-            315,
-            12,
-            secondary,
-            TextWeight.Medium,
-            tabular: true);
-
-        Paint.RoundedRect(dc, new Rect(392, 260, 68, 68), 22, buttonFill);
-        MacGlyphs.Plus(dc, SymbolBox(new Point(426, 294), 28), ink);
-
-        MacGlyphs.Previous(dc, SymbolBox(new Point(533, 294), 28), ink);
-        Paint.RoundedRect(dc, new Rect(589, 260, 68, 68), 28, Paint.Brush(Paint.WithAlpha(accentColor, dark ? 0.25 : 0.13)));
-        if (model.Media.Playing)
-        {
-            MacGlyphs.Pause(dc, SymbolBox(new Point(623, 294), 32), accent);
-        }
-        else
-        {
-            MacGlyphs.Play(dc, SymbolBox(new Point(623, 294), 32), accent);
-        }
-
-        MacGlyphs.Next(dc, SymbolBox(new Point(713, 294), 28), ink);
-
+        var lockCircle = new Rect(826, 244, 48, 48);
+        Paint.RoundedRect(dc, lockCircle, 24, subtle);
         if (model.LockProgress > 0)
-        {
-            var progress = LockBounds;
-            progress.Width *= Math.Clamp(model.LockProgress, 0, 1);
-            Paint.ClipRounded(dc, LockBounds, 28, () =>
-            {
-                dc.DrawRectangle(Paint.Brush(Paint.WithAlpha(accentColor, 0.22)), null, progress);
-            });
-        }
-
-        MacGlyphs.Lock(dc, SymbolBox(new Point(856, 280), 28), model.CanLock ? ink : secondary, cardFill);
-        Paint.Text(dc, "按住锁屏", 824, 313, 15, model.CanLock ? ink : secondary, TextWeight.Medium);
+            Paint.ClipRounded(dc, LockCard, 24, () => dc.DrawRectangle(subtle, null,
+                new Rect(LockCard.X, LockCard.Y, LockCard.Width * Math.Clamp(model.LockProgress, 0, 1), LockCard.Height)));
+        MacGlyphs.Lock(dc, Box(850, 268, 23), model.CanLock ? ink : secondary, fill);
+        Center(dc, model.LockProgress > 0 ? "保持按住" : "按住锁屏", 850, 307, 14, model.CanLock ? ink : secondary, TextWeight.Medium);
     }
 
-    private static void DrawBackdrop(DrawingContext dc, Size size, bool dark, Color accentColor)
+    private static void Metric(DrawingContext dc, Rect card, string title, string value, string unit,
+        string detail, string sideDetail, IReadOnlyList<double> history, Color color, Brush ink, Brush secondary,
+        Action<DrawingContext, Rect, Brush> glyph, bool dark)
     {
-        var backdrop = dark
-            ? new[]
-            {
-                Paint.ColorRgb(0.035, 0.07, 0.13),
-                Paint.ColorRgb(0.10, 0.14, 0.22),
-                Paint.ColorRgb(0.045, 0.09, 0.16),
-            }
-            : new[]
-            {
-                Paint.ColorRgb(0.79, 0.88, 0.98),
-                Paint.ColorRgb(0.92, 0.94, 0.98),
-                Paint.ColorRgb(0.79, 0.89, 0.94),
-            };
-
-        Paint.LinearGradient(
-            dc,
-            new Rect(0, 0, size.Width, size.Height),
-            new Point(0, 0),
-            new Point(size.Width, size.Height),
-            (0, backdrop[0]),
-            (0.5, backdrop[1]),
-            (1, backdrop[2]));
-
-        var alpha = dark ? 0.11 : 0.09;
-        Paint.RadialGlow(dc, new Point(300, -30), 410, accentColor, alpha);
-        Paint.RadialGlow(dc, new Point(860, 380), 410, Paint.ColorRgb(0.25, 0.84, 0.83), alpha);
+        dc.DrawEllipse(Paint.Brush(color), null, new Point(card.X + 29, card.Y + 29), 13, 13);
+        glyph(dc, Box(card.X + 29, card.Y + 29, 16), Brushes.White);
+        Text(dc, title, card.X + 51, card.Y + 20, 13, ink, TextWeight.SemiBold);
+        var valueSize = 43.0;
+        while (valueSize > 30 && Measure(value, valueSize, TextWeight.Regular, true) + Measure(unit, 15) + 5 > card.Width - 36) valueSize -= 2;
+        Text(dc, value, card.X + 18, card.Y + 57, valueSize, ink, tabular: true);
+        if (value != "—") Text(dc, unit, card.X + 22 + Measure(value, valueSize, TextWeight.Regular, true),
+            card.Y + 57 + Paint.AscenderRatio * (valueSize - 15), 15, secondary);
+        Text(dc, detail, card.X + 18, card.Y + 117, 12, secondary, maxWidth: 105);
+        Right(dc, sideDetail, card.Right - 18, card.Y + 117, 12, secondary);
+        if (history.Count >= 2) Paint.Sparkline(dc, new Rect(card.X + 18, card.Y + 148, card.Width - 36, 26), history,
+            dark ? Color.FromRgb((byte)(color.R * .7 + 255 * .3), (byte)(color.G * .7 + 255 * .3), (byte)(color.B * .7 + 255 * .3)) : color);
+        else dc.DrawLine(Paint.Stroke(Paint.Brush(Paint.WithAlpha(color, .2)), 1), new Point(card.X + 18, card.Y + 174), new Point(card.Right - 18, card.Y + 174));
     }
 
-    private static void Card(DrawingContext dc, Rect rect, double radius, Brush fill, Pen stroke, Brush shadow, bool dark)
+    private static void Glass(DrawingContext dc, Rect rect, Brush fill, Pen edge, bool dark)
     {
-        var shadowRect = new Rect(rect.X, rect.Y + 3, rect.Width, rect.Height);
-        var shadowWide = new Rect(rect.X, rect.Y + 7, rect.Width, rect.Height);
-        Paint.RoundedRect(dc, shadowWide, radius, Paint.Brush(dark ? Color.FromArgb(18, 0, 0, 0) : Color.FromArgb(8, 15, 30, 60)));
-        Paint.RoundedRect(dc, shadowRect, radius, Paint.Brush(dark ? Color.FromArgb(38, 0, 0, 0) : Color.FromArgb(14, 15, 30, 60)));
-        Paint.RoundedRect(dc, rect, radius, fill);
-        dc.DrawRoundedRectangle(null, stroke, rect, radius, radius);
-
-        Paint.ClipRounded(dc, rect, radius, () =>
-        {
-            Paint.LinearGradient(
-                dc,
-                rect,
-                new Point(rect.X, rect.Y),
-                new Point(rect.X, rect.Bottom),
-                (0, dark ? Color.FromArgb(14, 255, 255, 255) : Color.FromArgb(64, 255, 255, 255)),
-                (1, Color.FromArgb(0, 255, 255, 255)));
-        });
+        Paint.RoundedRect(dc, new Rect(rect.X, rect.Y + 4, rect.Width, rect.Height), 24,
+            Paint.Brush(Color.FromArgb(dark ? (byte)25 : (byte)12, 0, 0, 0)));
+        Paint.RoundedRect(dc, rect, 24, fill, edge);
+        Paint.ClipRounded(dc, rect, 24, () => Paint.LinearGradient(dc, rect, new Point(0, 0), new Point(0, 1),
+            (0, Color.FromArgb(dark ? (byte)12 : (byte)50, 255, 255, 255)), (1, Color.FromArgb(0, 255, 255, 255))));
     }
-
-    private static Rect SymbolBox(Point center, double size) =>
-        new(center.X - (size / 2), center.Y - (size / 2), size, size);
-
-    private static string Format(double? value, string format, string fallback) =>
-        value.HasValue ? value.Value.ToString(format, CultureInfo.InvariantCulture) : fallback;
-
-    private static string FormatPercent(double? value) =>
-        value.HasValue ? (value.Value * 100).ToString("0", CultureInfo.InvariantCulture) + "%" : "—";
+    private static void Backdrop(DrawingContext dc, Size size, bool dark)
+    {
+        dc.DrawRectangle(Paint.Brush(dark ? Color.FromRgb(27, 35, 42) : Color.FromRgb(213, 225, 231)), null, new Rect(new Point(), size));
+        Paint.RadialGlow(dc, new Point(50, 5), 520, Color.FromRgb(113, 151, 144), dark ? .25 : .16);
+        Paint.RadialGlow(dc, new Point(880, 340), 500, Color.FromRgb(168, 135, 116), dark ? .18 : .16);
+    }
+    private static Rect Box(double x, double y, double size) => new(x - size / 2, y - size / 2, size, size);
+    private static string Number(double? value, string format = "0") => value?.ToString(format, CultureInfo.InvariantCulture) ?? "—";
+    private static string Percent(double? value) => value.HasValue ? $"{Number(value * 100)}%" : "—";
+    private static string ShortGpu(string value) => string.IsNullOrEmpty(value) ? "等待显卡数据" : value.Replace("NVIDIA ", "", StringComparison.Ordinal).Replace("GeForce ", "", StringComparison.Ordinal);
+    private static double Measure(string text, double size, TextWeight weight = TextWeight.Regular, bool tabular = false)
+        => Paint.MeasureText(text, size, weight, tabular, MacFont);
+    private static void Text(DrawingContext dc, string text, double x, double y, double size, Brush brush,
+        TextWeight weight = TextWeight.Regular, bool tabular = false, double? maxWidth = null)
+        => Paint.Text(dc, text, x, y, size, brush, weight, tabular, maxWidth, MacFont);
+    private static void Center(DrawingContext dc, string text, double x, double y, double size, Brush brush,
+        TextWeight weight = TextWeight.Regular, bool tabular = false)
+        => Paint.CenteredText(dc, text, x, y, size, brush, weight, tabular, MacFont);
+    private static void Right(DrawingContext dc, string text, double right, double y, double size, Brush brush)
+        => Text(dc, text, right - Measure(text, size, tabular: true), y, size, brush, tabular: true);
 }

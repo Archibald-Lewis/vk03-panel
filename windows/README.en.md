@@ -6,7 +6,7 @@ touch volume and playback controls.
 
 This is the Windows implementation in [VK03 Panel](https://github.com/Archibald-Lewis/vk03-panel)
 that also merges both visual languages into one app: the panel theme can be switched between
-**macOS (original)** and **Windows 11 (Fluent)** at any time.
+**macOS (Control Center style)** and **Windows 11 (Fluent)** at any time.
 
 ![Windows 11 theme](assets/demo-win11-dark.png)
 

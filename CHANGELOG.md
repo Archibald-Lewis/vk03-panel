@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-01 — Windows theme and sampling update
+
+- Redesign the Windows app macOS theme around Control Center-style translucent modules, capsule volume controls and monochrome playback buttons.
+- Sample hardware metrics on a monotonic schedule independently of touch, volume and lock-progress redraws.
+- Keep all three history graphs at the configured 1 or 2 Hz cadence, including while holding the lock button.
+- Add regression tests for rapid redraws, refresh-rate changes, sensor failures and touch targets in both themes (37 tests passing).
+
+
 ## 2026-11-01 — Windows support
 
 - Add the Windows .NET / WPF implementation under `windows/`, preserving the macOS source layout.

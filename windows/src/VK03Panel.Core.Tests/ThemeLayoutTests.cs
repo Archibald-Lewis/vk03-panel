@@ -7,12 +7,13 @@ namespace VK03Panel.Core.Tests;
 
 public sealed class ThemeLayoutTests
 {
-    [Fact]
-    public void Win11_TouchTargetsStaySeparateAndHaveUsableEdges()
+    [Theory]
+    [InlineData(PanelThemes.Win11Id)]
+    [InlineData(PanelThemes.MacId)]
+    public void TouchTargetsStaySeparateAndHaveUsableEdges(string themeId)
     {
-        var theme = PanelThemes.Get(PanelThemes.Win11Id);
-        var actions = new[] { PanelAction.Mute, PanelAction.Volume, PanelAction.Previous,
-            PanelAction.Play, PanelAction.Next, PanelAction.Lock };
+        var theme = PanelThemes.Get(themeId);
+        var actions = Enum.GetValues<PanelAction>().Where(action => !theme.Bounds(action).IsEmpty).ToArray();
         foreach (var action in actions)
         {
             var bounds = theme.Bounds(action);

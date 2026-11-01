@@ -88,15 +88,14 @@ public sealed class PanelWorker : IDisposable, ITouchSink
     private bool _touchConnected;
     private long _touchReports;
     private string? _touchError;
-    private readonly List<double> _cpuHistory = new();
-    private readonly List<double> _gpuHistory = new();
-    private readonly List<double> _memoryHistory = new();
+    private readonly MetricsTimeline _timeline;
     private PanelWorkerStatus _status = new();
 
     public PanelWorker(PanelConfigStore store)
     {
         _store = store;
         _config = store.Config.Clone();
+        _timeline = new MetricsTimeline(_metrics.Sample);
         _media.Updated += RequestRefresh;
         _touch = new TouchController(
             () => ReadConfig().Rotation,
@@ -287,8 +286,9 @@ public sealed class PanelWorker : IDisposable, ITouchSink
                 }
 
                 PublishStatus();
-                var interval = TimeSpan.FromSeconds(1.0 / Math.Clamp(ReadConfig().RefreshPerSecond, 1, 2));
-                var remaining = interval - cycle.Elapsed;
+                var refreshRate = ReadConfig().RefreshPerSecond;
+                var interval = TimeSpan.FromSeconds(1.0 / Math.Clamp(refreshRate, 1, 2));
+                var remaining = _paused ? interval - cycle.Elapsed : _timeline.TimeUntilNextSample(refreshRate);
                 if (remaining > TimeSpan.Zero)
                 {
                     _wake.WaitOne(remaining);
@@ -343,7 +343,7 @@ public sealed class PanelWorker : IDisposable, ITouchSink
         }
 
         var config = ReadConfig();
-        var snapshot = _metrics.Sample();
+        var snapshot = _timeline.SampleIfDue(config.RefreshPerSecond);
         var audio = _audio.Read();
         var media = _media.Snapshot();
         var dark = ResolveDarkMode(config);
@@ -368,17 +368,9 @@ public sealed class PanelWorker : IDisposable, ITouchSink
             accent: accent,
             lockProgress: _lockProgress,
             pressedAction: _pressedAction,
-            cpuLoadHistory: _cpuHistory.ToArray(),
-            gpuLoadHistory: _gpuHistory.ToArray(),
-            memoryHistory: _memoryHistory.ToArray());
-
-        PushHistory(_cpuHistory, snapshot.CpuLoad);
-        PushHistory(_gpuHistory, snapshot.GpuLoad);
-        PushHistory(
-            _memoryHistory,
-            snapshot.MemoryTotalGb is > 0 && snapshot.MemoryUsedGb.HasValue
-                ? snapshot.MemoryUsedGb.Value / snapshot.MemoryTotalGb.Value
-                : null);
+            cpuLoadHistory: _timeline.CpuHistory.ToArray(),
+            gpuLoadHistory: _timeline.GpuHistory.ToArray(),
+            memoryHistory: _timeline.MemoryHistory.ToArray());
 
         var theme = PanelThemes.Get(config.ThemeId);
         var (frame, bgr) = PanelRenderer.RenderEncoded(theme, model, config.Rotation);
@@ -461,20 +453,6 @@ public sealed class PanelWorker : IDisposable, ITouchSink
             _nextConnectionAttempt = DateTime.UtcNow.AddSeconds(2);
             _transport?.Dispose();
             _transport = null;
-        }
-    }
-
-    private static void PushHistory(List<double> history, double? value)
-    {
-        if (value is not { } sample || !double.IsFinite(sample))
-        {
-            return;
-        }
-
-        history.Add(Math.Clamp(sample, 0, 1));
-        if (history.Count > 40)
-        {
-            history.RemoveAt(0);
         }
     }
 
@@ -605,6 +583,8 @@ public sealed class PanelWorker : IDisposable, ITouchSink
                 timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                 connected = _transport is { IsConnected: true },
                 frames = _framesSent,
+                metricsSamples = _timeline.SampleCount,
+                historyPoints = _timeline.CpuHistory.Count,
                 lastFrameMs = _lastFrameMilliseconds,
                 lastError = _lastError,
                 theme = config.ThemeId,
