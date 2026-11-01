@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-01 — Instrument and immersive playback themes
+
+- Add Nebula instruments and a cover-led Immersive now-playing theme, including dark and light appearances.
+- Add touch theme cycling, recent load peaks and timeline seeking when the media player supports it.
+- Add configurable idle NetEase playlist playback while preserving existing media-session priority.
+- Store only a numeric playlist ID locally and debounce repeated client startup requests.
+- Verify 72 unit and rendering tests, the installed NetEase 3.1 protocol parser, and physical playlist startup / playback.
+- Detach decoded album-art pixels from their loader-thread decoder before sharing them with rendering threads; cover the real-image cross-thread regression.
+
+
 ## 2026-11-01 — Windows theme and sampling update
 
 - Redesign the Windows app macOS theme around Control Center-style translucent modules, capsule volume controls and monochrome playback buttons.

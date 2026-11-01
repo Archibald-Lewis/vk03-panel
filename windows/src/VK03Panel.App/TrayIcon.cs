@@ -9,6 +9,8 @@ public sealed class TrayIcon : IDisposable
     private readonly NotifyIcon _notifyIcon;
     private readonly ToolStripMenuItem _win11Item;
     private readonly ToolStripMenuItem _macItem;
+    private readonly ToolStripMenuItem _nebulaItem;
+    private readonly ToolStripMenuItem _immersiveItem;
     private readonly ToolStripMenuItem _pauseItem;
     private readonly Icon _icon;
 
@@ -41,6 +43,12 @@ public sealed class TrayIcon : IDisposable
         _macItem.Click += (_, _) => ThemeSelected?.Invoke("mac");
         themeMenu.DropDownItems.Add(_win11Item);
         themeMenu.DropDownItems.Add(_macItem);
+        _nebulaItem = new ToolStripMenuItem("星环") { CheckOnClick = false };
+        _immersiveItem = new ToolStripMenuItem("沉浸播放") { CheckOnClick = false };
+        _nebulaItem.Click += (_, _) => ThemeSelected?.Invoke("nebula");
+        _immersiveItem.Click += (_, _) => ThemeSelected?.Invoke("immersive");
+        themeMenu.DropDownItems.Add(_nebulaItem);
+        themeMenu.DropDownItems.Add(_immersiveItem);
         menu.Items.Add(themeMenu);
 
         _pauseItem = new ToolStripMenuItem("暂停刷新") { CheckOnClick = true };
@@ -68,6 +76,8 @@ public sealed class TrayIcon : IDisposable
     {
         _win11Item.Checked = string.Equals(themeId, "win11", StringComparison.OrdinalIgnoreCase);
         _macItem.Checked = string.Equals(themeId, "mac", StringComparison.OrdinalIgnoreCase);
+        _nebulaItem.Checked = themeId == "nebula";
+        _immersiveItem.Checked = themeId == "immersive";
         _pauseItem.Checked = paused;
     }
 

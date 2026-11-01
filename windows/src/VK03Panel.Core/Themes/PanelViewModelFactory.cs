@@ -24,7 +24,8 @@ public static class PanelViewModelFactory
         PanelAction? pressedAction = null,
         IReadOnlyList<double>? cpuLoadHistory = null,
         IReadOnlyList<double>? gpuLoadHistory = null,
-        IReadOnlyList<double>? memoryHistory = null)
+        IReadOnlyList<double>? memoryHistory = null,
+        string? playbackMessage = null)
     {
         return new PanelViewModel
         {
@@ -48,6 +49,7 @@ public static class PanelViewModelFactory
             PanelConnected = panelConnected,
             Demo = demo,
             Media = media,
+            PlaybackMessage = playbackMessage,
             Volume = volume,
             Muted = muted,
             CanLock = canLock,

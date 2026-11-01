@@ -18,6 +18,7 @@ public sealed class MediaWatcher : IDisposable
     private PanelMediaState _state = PanelMediaState.Empty;
     private TimeSpan _position;
     private TimeSpan _end;
+    private TimeSpan _start;
     private DateTimeOffset _timelineCapturedAt = DateTimeOffset.UtcNow;
     private bool _playing;
     private bool _disposed;
@@ -25,17 +26,19 @@ public sealed class MediaWatcher : IDisposable
     /// <summary>Raised on thread-pool threads whenever the session or its metadata changes.</summary>
     public event Action? Updated;
 
+    public bool HasSession => GetCommandSession() is not null;
+
     public PanelMediaState Snapshot()
     {
         lock (_sync)
         {
-            var elapsed = _position;
+            var elapsed = _position - _start;
             if (_playing)
             {
                 elapsed += DateTimeOffset.UtcNow - _timelineCapturedAt;
             }
 
-            var duration = _end > TimeSpan.Zero ? _end.TotalSeconds : 0;
+            var duration = _end > _start ? (_end - _start).TotalSeconds : 0;
             var elapsedSeconds = Math.Clamp(elapsed.TotalSeconds, 0, duration > 0 ? duration : double.MaxValue);
 
             return new PanelMediaState
@@ -49,6 +52,7 @@ public sealed class MediaWatcher : IDisposable
                 ElapsedSeconds = elapsedSeconds,
                 Artwork = _state.Artwork,
                 HasSession = _state.HasSession,
+                CanSeek = _state.CanSeek,
             };
         }
     }
@@ -97,6 +101,7 @@ public sealed class MediaWatcher : IDisposable
                 _playing = false;
                 _position = TimeSpan.Zero;
                 _end = TimeSpan.Zero;
+                _start = TimeSpan.Zero;
             }
             else
             {
@@ -167,14 +172,16 @@ public sealed class MediaWatcher : IDisposable
                     Album = album.Length > 0 ? album : _state.Album,
                     SourceApp = sourceApp,
                     Playing = playing,
-                    DurationSeconds = timeline.EndTime.TotalSeconds,
-                    ElapsedSeconds = timeline.Position.TotalSeconds,
+                    DurationSeconds = (timeline.EndTime - timeline.StartTime).TotalSeconds,
+                    ElapsedSeconds = (timeline.Position - timeline.StartTime).TotalSeconds,
                     Artwork = artwork ?? _state.Artwork,
                     HasSession = true,
+                    CanSeek = playback.Controls.IsPlaybackPositionEnabled,
                 };
                 _playing = playing;
                 _position = timeline.Position;
                 _end = timeline.EndTime;
+                _start = timeline.StartTime;
                 _timelineCapturedAt = DateTimeOffset.UtcNow;
             }
         }
@@ -214,8 +221,7 @@ public sealed class MediaWatcher : IDisposable
 
             using var memory = new MemoryStream(bytes, writable: false);
             var frame = BitmapFrame.Create(memory, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-            frame.Freeze();
-            return frame;
+            return ArtworkFrames.Detach(frame);
         }
         catch (Exception)
         {
@@ -275,6 +281,22 @@ public sealed class MediaWatcher : IDisposable
         {
             return false;
         }
+    }
+
+    public async Task<bool> SeekFractionAsync(double fraction)
+    {
+        var session = GetCommandSession();
+        if (session is null) return false;
+        try
+        {
+            if (!session.GetPlaybackInfo().Controls.IsPlaybackPositionEnabled) return false;
+            var timeline = session.GetTimelineProperties();
+            if (!PlaybackSeek.TryGetTicks(timeline.StartTime, timeline.EndTime, fraction, out var ticks)) return false;
+            var changed = await session.TryChangePlaybackPositionAsync(ticks);
+            if (changed) await RefreshAsync();
+            return changed;
+        }
+        catch (Exception) { return false; }
     }
 
     private GlobalSystemMediaTransportControlsSession? GetCommandSession()

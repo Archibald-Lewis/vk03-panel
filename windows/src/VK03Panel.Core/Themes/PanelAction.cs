@@ -12,6 +12,8 @@ public enum PanelAction
     Play,
     Next,
     Lock,
+    CycleTheme,
+    Seek,
 }
 
 public static class PanelActionExtensions
@@ -29,6 +31,8 @@ public static class PanelActionExtensions
         PanelAction.Play => "播放/暂停",
         PanelAction.Next => "下一首",
         PanelAction.Lock => "锁屏",
+        PanelAction.CycleTheme => "切换主题",
+        PanelAction.Seek => "播放进度",
         _ => "无",
     };
 }

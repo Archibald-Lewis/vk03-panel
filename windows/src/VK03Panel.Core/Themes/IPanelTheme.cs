@@ -30,3 +30,10 @@ public interface IPanelTheme
 
     void Draw(PanelViewModel model, DrawingContext context, Size size);
 }
+
+/// <summary>Optional seek geometry for a playback-focused theme.</summary>
+public interface ISeekTheme
+{
+    double SeekLeft { get; }
+    double SeekWidth { get; }
+}

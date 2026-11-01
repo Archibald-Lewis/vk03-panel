@@ -155,7 +155,10 @@ public partial class DisplayPage : UserControl, ISettingsPage
         PreviewFrame.ReleaseMouseCapture();
         CancelLockHold();
 
-        if (action is not (PanelAction.Volume or PanelAction.Lock))
+        if (action == PanelAction.Seek && PanelThemes.Get(_store.Config.ThemeId) is ISeekTheme seek && ToPanelPoint(e) is { } seekPoint)
+            _worker.SetPlaybackFraction(Math.Clamp((seekPoint.X - seek.SeekLeft) / Math.Max(1, seek.SeekWidth), 0, 1));
+
+        if (action is not (PanelAction.Volume or PanelAction.Lock or PanelAction.Seek))
         {
             _worker.PerformAction(action);
         }

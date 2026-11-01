@@ -14,7 +14,7 @@ that also merges both visual languages into one app: the panel theme can be swit
 
 - Native .NET 9 / WPF application; the settings window follows Windows 11 design
   (Mica ambiance, 8 px cards, Segoe UI Variable, Fluent toggles, system light/dark and accent).
-- Two panel themes, switchable live from the Appearance page.
+- Four panel themes: Windows 11, macOS, Nebula instruments and Immersive now playing. Tap the clock or theme control on the physical screen to cycle through them.
 - Local monitoring only: CPU load/frequency, memory, NVIDIA GPU utilisation and temperature.
 - Now playing via the Windows media session (GSMTC), including artwork and progress.
 - Touch: mute, volume scrub, transport, hold-to-lock (HID and raw-USB backends).
@@ -47,7 +47,7 @@ self-contained build to `dist/VK03Panel/`. See [docs/BUILD.md](docs/BUILD.md).
 ```text
 VK03Panel.exe --background             start in the tray
 VK03Panel.exe --self-test [--frame]    device / driver / chip / EDID self-test
-VK03Panel.exe --demo <png> [--theme mac|win11] [--dark|--light]
+VK03Panel.exe --demo <png> [--theme mac|win11|nebula|immersive] [--dark|--light]
 VK03Panel.exe --render <png>           render current machine data
 VK03Panel.exe --diagnose               print a full diagnostic summary
 ```
@@ -57,3 +57,9 @@ VK03Panel.exe --diagnose               print a full diagnostic summary
 MIT. Protocol research by [codehz/msdisplay](https://github.com/codehz/msdisplay); original macOS
 application by [vk03-panel-macos](https://gitee.com/archibald-lewis/vk03-panel-macos).
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
+## Playback button
+
+The Playback settings page accepts a NetEase playlist link or numeric ID. Only the ID is stored locally; share-tracking parameters and account credentials are not used. Existing Windows media sessions always take priority. When no session exists, the app can ask the installed NetEase desktop client to play the configured playlist. Repeated startup requests are suppressed for 15 seconds.
+
+Immersive now playing supports tapping its timeline to seek when the current player advertises that capability. Client login and track permissions remain the responsibility of the music app.

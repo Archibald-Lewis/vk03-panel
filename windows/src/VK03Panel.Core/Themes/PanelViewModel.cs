@@ -25,6 +25,8 @@ public sealed class PanelMediaState
 
     public bool HasSession { get; init; }
 
+    public bool CanSeek { get; init; }
+
     public double Progress => DurationSeconds <= 0 ? 0 : Math.Clamp(ElapsedSeconds / DurationSeconds, 0, 1);
 }
 
@@ -75,6 +77,8 @@ public sealed class PanelViewModel
     public bool Demo { get; init; }
 
     public PanelMediaState Media { get; init; } = PanelMediaState.Empty;
+
+    public string? PlaybackMessage { get; init; }
 
     public double? Volume { get; init; }
 

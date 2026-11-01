@@ -14,15 +14,20 @@ CPU 温度与频率、内存、GPU、正在播放的音乐，再加上随手可�
 
 - 原生 .NET 9 / WPF 应用，设置窗口采用 Windows 11 设计：Mica 氛围、8px 圆角卡片、
   Segoe UI Variable、Fluent 开关与分段控件，跟随系统深浅色与强调色。
-- **两套副屏主题**，在「外观」页即时切换：
+- **四款副屏主题**，在「外观」页即时切换：
   - `Windows 11`：参考任务管理器性能页，提供 CPU / 内存 / GPU 网格趋势图、实时指标，以及媒体与音量触控条。
   - `macOS`：参考控制中心的中性半透明模块、胶囊音量滑条与填充播放图标。
+  - `星环`：发光环形仪表、近期负载峰值、切角控制台。
+  - `沉浸播放`：大封面、封面背景、歌曲信息、金属色播放控件与可点击进度条。
 - 监控数据全部在本机采集：CPU 负载 / 频率、内存用量与内存条信息、NVIDIA GPU 利用率与温度。
 - CPU 温度直接读取 **AMD Ryzen Master SDK** 的处理器传感器；HWiNFO 共享内存与
   LibreHardwareMonitor 作为回退。
 - 正在播放：标题、歌手、封面、进度；上一首 / 播放暂停 / 下一首。
 - 触控：静音、音量拖动、切歌、按住 1.2 秒锁屏（HID 与 USB 直读双后端）。
 - USB 自动重连、开机自启、托盘常驻、单实例、方向设置（0/90/180/270）。
+- 副屏上点按时钟或“切换主题”入口，依次切换四款主题；设置窗口和托盘同样支持选择。
+- 在“播放”页设置网易云歌单：有媒体会话时优先暂停/继续；空闲时启动歌单。仅保存歌单 ID，不需要账号密码。
+- 沉浸播放的进度条支持点按跳转，前提是当前播放器通过 Windows 媒体会话开放跳转能力。
 - 普通监控与触屏无需管理员权限；AMD Ryzen Master SDK 温度读取需要管理员权限。
 
 ![设置窗口](assets/ui-settings.png)
@@ -77,7 +82,7 @@ VK03Panel.exe                      打开设置窗口
 VK03Panel.exe --background         启动后只保留托盘图标（自启使用）
 VK03Panel.exe --self-test [--frame] [--hold 秒] [--rotation 0|90|180|270]
                                    设备/驱动/芯片/EDID 自检；--frame 实际点亮副屏
-VK03Panel.exe --demo <png> [--theme mac|win11] [--dark|--light]
+VK03Panel.exe --demo <png> [--theme mac|win11|nebula|immersive] [--dark|--light]
                                    用合成数据出图（不碰硬件）
 VK03Panel.exe --render <png>      用本机真实数据出图
 VK03Panel.exe --diagnose          输出设备、传感器、媒体与音频诊断
@@ -109,3 +114,13 @@ assets/                   演示图、设置窗口截图与图标
 本项目代码采用 MIT 许可。USB 协议研究来自 [codehz/msdisplay](https://github.com/codehz/msdisplay)，
 原始 macOS 版本为 [vk03-panel-macos](https://gitee.com/archibald-lewis/vk03-panel-macos)，
 运行时依赖 libusb-win32 驱动与 Windows 自带的 NVML。详情见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+## 新主题预览
+
+以下均为合成演示数据。
+
+![星环主题](assets/demo-nebula-dark.png)
+
+![沉浸播放主题，无封面时显示唱片](assets/demo-immersive-dark.png)
+
+歌单启动使用本机已安装的网易云客户端；登录状态和歌曲权限由客户端负责。客户端接口可能随版本变化，当前启动命令按本机 3.1 客户端资源验证。

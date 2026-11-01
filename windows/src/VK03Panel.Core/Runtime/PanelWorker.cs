@@ -56,6 +56,8 @@ public sealed class PanelWorkerStatus
     public long TouchReports { get; init; }
 
     public string? TouchError { get; init; }
+
+    public string? PlaybackMessage { get; init; }
 }
 
 /// <summary>
@@ -89,6 +91,8 @@ public sealed class PanelWorker : IDisposable, ITouchSink
     private long _touchReports;
     private string? _touchError;
     private readonly MetricsTimeline _timeline;
+    private readonly PlayButtonController _playButton;
+    private string? _playbackMessage;
     private PanelWorkerStatus _status = new();
 
     public PanelWorker(PanelConfigStore store)
@@ -96,12 +100,15 @@ public sealed class PanelWorker : IDisposable, ITouchSink
         _store = store;
         _config = store.Config.Clone();
         _timeline = new MetricsTimeline(_metrics.Sample);
+        _playButton = new PlayButtonController(() => _media.HasSession, _media.TogglePlayPauseAsync, NetEasePlaybackTarget.Launch);
         _media.Updated += RequestRefresh;
         _touch = new TouchController(
             () => ReadConfig().Rotation,
             () => PanelThemes.Get(ReadConfig().ThemeId),
             this);
     }
+
+    public event Action? CycleThemeRequested;
 
     public event Action<PanelWorkerStatus>? StatusChanged;
 
@@ -214,6 +221,9 @@ public sealed class PanelWorker : IDisposable, ITouchSink
     {
         switch (action)
         {
+            case PanelAction.CycleTheme:
+                CycleThemeRequested?.Invoke();
+                break;
             case PanelAction.Mute:
                 var current = _audio.Read();
                 _audio.SetMuted(!(current?.Muted ?? false));
@@ -228,7 +238,7 @@ public sealed class PanelWorker : IDisposable, ITouchSink
                 _ = _media.PreviousAsync();
                 break;
             case PanelAction.Play:
-                _ = _media.TogglePlayPauseAsync();
+                _ = PlayAsync();
                 break;
             case PanelAction.Next:
                 _ = _media.NextAsync();
@@ -243,6 +253,18 @@ public sealed class PanelWorker : IDisposable, ITouchSink
         }
 
         RequestRefresh();
+    }
+
+    private async Task PlayAsync()
+    {
+        var config = ReadConfig();
+        _playbackMessage = await _playButton.ExecuteAsync(config.IdlePlaybackEnabled, config.IdlePlaylistId);
+        RequestRefresh();
+    }
+
+    public void SetPlaybackFraction(double fraction)
+    {
+        _ = _media.SeekFractionAsync(fraction);
     }
 
     public void SetVolumeFraction(double fraction)
@@ -338,6 +360,7 @@ public sealed class PanelWorker : IDisposable, ITouchSink
                 TouchConnected = _touchConnected,
                 TouchReports = _touchReports,
                 TouchError = _touchError,
+                PlaybackMessage = _playbackMessage,
             };
             return;
         }
@@ -370,7 +393,8 @@ public sealed class PanelWorker : IDisposable, ITouchSink
             pressedAction: _pressedAction,
             cpuLoadHistory: _timeline.CpuHistory.ToArray(),
             gpuLoadHistory: _timeline.GpuHistory.ToArray(),
-            memoryHistory: _timeline.MemoryHistory.ToArray());
+            memoryHistory: _timeline.MemoryHistory.ToArray(),
+            playbackMessage: _playbackMessage);
 
         var theme = PanelThemes.Get(config.ThemeId);
         var (frame, bgr) = PanelRenderer.RenderEncoded(theme, model, config.Rotation);
@@ -424,6 +448,7 @@ public sealed class PanelWorker : IDisposable, ITouchSink
             TouchConnected = _touchConnected,
             TouchReports = _touchReports,
             TouchError = _touchError,
+            PlaybackMessage = _playbackMessage,
         };
     }
 
@@ -575,6 +600,8 @@ public sealed class PanelWorker : IDisposable, ITouchSink
                 playing = media.Playing,
                 artwork = media.Artwork is not null,
                 hasSession = media.HasSession,
+                sourceApp = media.SourceApp,
+                canSeek = media.CanSeek,
             };
             File.WriteAllText(AppPaths.DiagnosticsFile("media.json"), JsonSerializer.Serialize(mediaState, JsonOptions));
 
@@ -596,6 +623,7 @@ public sealed class PanelWorker : IDisposable, ITouchSink
                 touchConnected = _touchConnected,
                 touchReports = _touchReports,
                 touchError = _touchError,
+                playbackMessage = _playbackMessage,
             };
             File.WriteAllText(AppPaths.DiagnosticsFile("panel.json"), JsonSerializer.Serialize(panel, JsonOptions));
 

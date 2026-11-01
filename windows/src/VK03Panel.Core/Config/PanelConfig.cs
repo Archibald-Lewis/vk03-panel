@@ -28,6 +28,10 @@ public sealed class PanelConfig
 
     public int RefreshPerSecond { get; set; } = 1;
 
+    public bool IdlePlaybackEnabled { get; set; }
+
+    public string IdlePlaylistId { get; set; } = string.Empty;
+
     public PanelConfig Clone() => new()
     {
         ThemeId = ThemeId,
@@ -39,14 +43,13 @@ public sealed class PanelConfig
         StartMinimized = StartMinimized,
         TurnOffPanelOnExit = TurnOffPanelOnExit,
         RefreshPerSecond = RefreshPerSecond,
+        IdlePlaybackEnabled = IdlePlaybackEnabled,
+        IdlePlaylistId = IdlePlaylistId,
     };
 
     public void Sanitize()
     {
-        if (ThemeId is not ("win11" or "mac"))
-        {
-            ThemeId = "win11";
-        }
+        ThemeId = VK03Panel.Core.Themes.PanelThemes.Get(ThemeId).Id;
 
         Appearance = Appearance switch
         {
@@ -67,6 +70,8 @@ public sealed class PanelConfig
         }
 
         RefreshPerSecond = Math.Clamp(RefreshPerSecond, 1, 2);
+        if (VK03Panel.Core.Media.NetEasePlaybackTarget.TryGetPlaylistId(IdlePlaylistId, out var playlistId)) IdlePlaylistId = playlistId;
+        else { IdlePlaylistId = string.Empty; IdlePlaybackEnabled = false; }
     }
 }
 

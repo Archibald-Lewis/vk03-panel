@@ -16,7 +16,7 @@ public static class RenderCommand
         var index = Array.FindIndex(args, argument => argument.Equals("--render", StringComparison.OrdinalIgnoreCase));
         if (index < 0 || index + 1 >= args.Length)
         {
-            output.WriteLine("用法：--render <输出.png> [--theme mac|win11] [--dark|--light]");
+            output.WriteLine("用法：--render <输出.png> [--theme mac|win11|nebula|immersive] [--dark|--light]");
             return 1;
         }
 

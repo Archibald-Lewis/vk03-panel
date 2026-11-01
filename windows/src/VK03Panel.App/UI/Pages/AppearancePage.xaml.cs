@@ -34,6 +34,8 @@ public partial class AppearancePage : UserControl, ISettingsPage, IThemeAware
 
         ThemeWin11.IsChecked = string.Equals(store.Config.ThemeId, "win11", StringComparison.OrdinalIgnoreCase);
         ThemeMac.IsChecked = string.Equals(store.Config.ThemeId, "mac", StringComparison.OrdinalIgnoreCase);
+        ThemeNebula.IsChecked = store.Config.ThemeId == PanelThemes.NebulaId;
+        ThemeImmersive.IsChecked = store.Config.ThemeId == PanelThemes.ImmersiveId;
 
         switch (store.Config.Appearance)
         {
@@ -109,6 +111,11 @@ public partial class AppearancePage : UserControl, ISettingsPage, IThemeAware
 
             ThumbWin11.Source = win11.Bitmap;
             ThumbMac.Source = mac.Bitmap;
+            var nebula = PanelRenderer.Render(PanelThemes.Nebula, model, 90);
+            var immersive = PanelRenderer.Render(PanelThemes.Immersive, model, 90);
+            nebula.Bitmap.Freeze(); immersive.Bitmap.Freeze();
+            ThumbNebula.Source = nebula.Bitmap;
+            ThumbImmersive.Source = immersive.Bitmap;
         }
         catch (Exception)
         {

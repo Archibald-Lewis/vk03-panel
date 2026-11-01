@@ -1,0 +1,36 @@
+<UserControl x:Class="VK03Panel.App.UI.Pages.PlaybackPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+        <TextBlock Text="播放" Style="{StaticResource PageTitle}" />
+        <TextBlock Text="副屏播放键优先暂停或继续当前媒体；没有媒体会话时，可启动网易云歌单。" Style="{StaticResource PageSubtitle}" />
+        <Border Style="{StaticResource Card}">
+            <Grid>
+                <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,20,0">
+                    <TextBlock Text="空闲时播放网易云歌单" Style="{StaticResource RowTitle}" />
+                    <TextBlock Text="已存在的浏览器、播放器等媒体会话仍优先处理。" Style="{StaticResource RowDescription}" />
+                </StackPanel>
+                <ToggleButton x:Name="FallbackToggle" Grid.Column="1" Style="{StaticResource FluentToggleSwitch}" VerticalAlignment="Center" Checked="OnFallbackChanged" Unchecked="OnFallbackChanged" />
+            </Grid>
+        </Border>
+        <Border Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock Text="网易云歌单链接" Style="{StaticResource RowTitle}" />
+                <TextBlock Text="可粘贴歌单分享链接或歌单 ID；保存时只保留 ID。" Style="{StaticResource RowDescription}" />
+                <TextBox x:Name="PlaylistInput" Margin="0,12,0,10" MinWidth="480" MinHeight="36" Padding="10,6" FontSize="13"
+                         Background="{DynamicResource SubtleFillBrush}" Foreground="{DynamicResource TextPrimaryBrush}"
+                         CaretBrush="{DynamicResource AccentBrush}" BorderBrush="{DynamicResource ControlBorderBrush}" BorderThickness="1" />
+                <Button Content="保存歌单" Style="{StaticResource AccentButton}" HorizontalAlignment="Left" Click="OnSavePlaylist" />
+                <TextBlock x:Name="SaveMessage" Style="{StaticResource RowDescription}" Margin="0,10,0,0" />
+            </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock Text="播放器状态" Style="{StaticResource RowTitle}" />
+                <TextBlock x:Name="PlaybackStatusText" Style="{StaticResource RowDescription}" />
+                <TextBlock Text="播放能力和会员歌曲权限由网易云客户端决定；请先在客户端完成登录。" Style="{StaticResource RowDescription}" Margin="0,8,0,0" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

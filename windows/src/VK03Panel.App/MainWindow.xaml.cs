@@ -31,6 +31,7 @@ public partial class MainWindow : Window
         {
             new("display", "副屏", "\uE7F4"),
             new("appearance", "外观", "\uE790"),
+            new("playback", "播放", "\uE768"),
             new("data", "数据", "\uE9D9"),
             new("startup", "启动", "\uE7E8"),
             new("about", "关于", "\uE946"),
@@ -121,6 +122,7 @@ public partial class MainWindow : Window
         {
             "appearance" => new AppearancePage(_store, _theme),
             "data" => new DataPage(_worker),
+            "playback" => new PlaybackPage(_worker, _store),
             "startup" => new StartupPage(_store),
             "about" => new AboutPage(_worker),
             _ => new DisplayPage(_worker, _store, _theme),

@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using VK03Panel.Core.Themes;
 
 namespace VK03Panel.Core.Touch;
@@ -11,6 +11,8 @@ public interface ITouchSink
     void SetPressedAction(PanelAction? action);
 
     void SetVolumeFraction(double fraction);
+
+    void SetPlaybackFraction(double fraction);
 
     void SetLockProgress(double progress);
 
@@ -148,8 +150,11 @@ public sealed class TouchController : IDisposable
         _pressedAction = null;
         StopLockHold();
 
+        if (wasPressed == PanelAction.Seek && _theme() is ISeekTheme seek)
+            _sink.SetPlaybackFraction(Math.Clamp((releasePoint.X - seek.SeekLeft) / Math.Max(1, seek.SeekWidth), 0, 1));
+
         if (wasPressed is not null &&
-            wasPressed is not (PanelAction.Volume or PanelAction.Lock) &&
+            wasPressed is not (PanelAction.Volume or PanelAction.Lock or PanelAction.Seek) &&
             _theme().HitTest(releasePoint) == wasPressed)
         {
             _sink.PerformAction(wasPressed.Value);

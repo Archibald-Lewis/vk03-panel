@@ -10,7 +10,7 @@
 | **NVML（`nvml.dll`）** | NVIDIA 驱动组件 | GPU 利用率与温度；随 NVIDIA 驱动安装于系统。 |
 | **Windows 媒体会话（GSMTC）** | 操作系统组件 | 正在播放信息与传输控制。 |
 | **Windows Core Audio** | 操作系统组件 | 默认输出端点音量与静音。 |
-| **Segoe UI Variable / Segoe Fluent Icons** | Windows 字体许可 | 界面与面板渲染所用字体，不随包分发。 |
+| **Segoe UI Variable / Segoe Fluent Icons / Bahnschrift / Arial** | Windows 字体许可 | 界面与面板渲染所用字体，不随包分发。 |
 
 ## 开发依赖
 

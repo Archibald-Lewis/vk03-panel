@@ -40,6 +40,7 @@ public static class DemoData
                 DurationSeconds = 210,
                 ElapsedSeconds = 88,
                 HasSession = true,
+                CanSeek = true,
             },
             Volume = 0.42,
             Muted = false,
