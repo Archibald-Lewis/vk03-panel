@@ -1,8 +1,21 @@
-# VK03 Panel for macOS
+# VK03 Panel
 
-[GitHub](https://github.com/Archibald-Lewis/vk03-panel-macos) · [Gitee](https://gitee.com/archibald-lewis/vk03-panel-macos) · [Companion project](https://github.com/Archibald-Lewis/stats-hackintosh-patches)
+[GitHub](https://github.com/Archibald-Lewis/vk03-panel) · [Gitee](https://gitee.com/archibald-lewis/vk03-panel-macos) · [Companion project](https://github.com/Archibald-Lewis/stats-hackintosh-patches)
 
-A native macOS monitoring and touch-control panel for the USB display in the VK03 PC case.
+Windows and macOS monitoring and touch controls for the USB display in the VK03 PC case.
+
+## Choose a platform
+
+| Platform | Source and instructions | Build |
+|---|---|---|
+| Windows 11 | [Windows version](windows/README.en.md), .NET / WPF | Run `./build.ps1` from `windows/` |
+| macOS 26 | Below, Swift / AppKit | Run `bash build.sh` from the repository root |
+
+The Windows build has been tested on Ryzen 7 9700X + RTX 5070 / MCVKC03 hardware. It uses raw USB touch input for volume, playback and hold-to-lock. The hardware overview follows the Windows 11 Task Manager performance layout.
+
+![Windows dark appearance, synthetic demo data](windows/assets/demo-win11-dark.png)
+
+## macOS version
 
 [中文](README.md) · [Build](docs/BUILD.md) · [Metrics format](docs/METRICS.md) · [Third-party notices](THIRD_PARTY_NOTICES.md)
 
@@ -12,7 +25,7 @@ See CPU temperature and frequency, memory use, GPU load and Now Playing informat
 
 ## Prebuilt app
 
-[Download the DMG](https://github.com/Archibald-Lewis/vk03-panel-macos/releases/latest) · [Installation, signing and compatibility](docs/INSTALL.md)
+[Download the DMG](https://github.com/Archibald-Lewis/vk03-panel/releases/latest) · [Installation, signing and compatibility](docs/INSTALL.md)
 
 AMD64 / x86_64 build, tested on an AMD Ryzen 7 9700X + RTX 5070 Hackintosh. Intel CPU machines are unverified. Ad-hoc signed and not notarized.
 

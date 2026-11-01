@@ -1,0 +1,78 @@
+<UserControl x:Class="VK03Panel.App.UI.Pages.StartupPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+        <TextBlock Text="启动" Style="{StaticResource PageTitle}" />
+        <TextBlock Style="{StaticResource PageSubtitle}"
+                   Text="登录后自动运行、启动时最小化，以及退出程序时是否关闭副屏。" />
+
+        <TextBlock Text="登录与窗口" Style="{StaticResource SectionTitle}" Margin="2,4,0,8" />
+        <Border Style="{StaticResource Card}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,16,0">
+                        <TextBlock Text="开机自动启动" Style="{StaticResource RowTitle}" />
+                        <TextBlock Text="在 HKCU\Software\Microsoft\Windows\CurrentVersion\Run 中写入带 --background 的启动项。"
+                                   Style="{StaticResource RowDescription}" />
+                    </StackPanel>
+                    <ToggleButton x:Name="AutoStartToggle"
+                                  Grid.Column="1"
+                                  Style="{StaticResource FluentToggleSwitch}"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Checked="OnToggleChanged"
+                                  Unchecked="OnToggleChanged" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,16,0">
+                        <TextBlock Text="启动时最小化到托盘" Style="{StaticResource RowTitle}" />
+                        <TextBlock Text="启动后不打开设置窗口，只保留托盘图标。" Style="{StaticResource RowDescription}" />
+                    </StackPanel>
+                    <ToggleButton x:Name="MinimizedToggle"
+                                  Grid.Column="1"
+                                  Style="{StaticResource FluentToggleSwitch}"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Checked="OnToggleChanged"
+                                  Unchecked="OnToggleChanged" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Text="副屏行为" Style="{StaticResource SectionTitle}" Margin="2,8,0,8" />
+        <Border Style="{StaticResource Card}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                    <TextBlock Text="退出时关闭副屏" Style="{StaticResource RowTitle}" />
+                    <TextBlock Text="退出程序时关闭面板背光，避免留下最后一帧画面。" Style="{StaticResource RowDescription}" />
+                </StackPanel>
+                <ToggleButton x:Name="TurnOffToggle"
+                              Grid.Column="1"
+                              Style="{StaticResource FluentToggleSwitch}"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Center"
+                              Checked="OnToggleChanged"
+                              Unchecked="OnToggleChanged" />
+            </Grid>
+        </Border>
+
+        <TextBlock Margin="2,6,0,0"
+                   FontSize="11"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource TextTertiaryBrush}"
+                   Text="修复或移动程序位置后，重新打开一次本页即可刷新自启路径。" />
+    </StackPanel>
+</UserControl>

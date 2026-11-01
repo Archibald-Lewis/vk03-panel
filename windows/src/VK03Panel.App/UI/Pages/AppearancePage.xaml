@@ -1,0 +1,93 @@
+<UserControl x:Class="VK03Panel.App.UI.Pages.AppearancePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+        <TextBlock Text="外观" Style="{StaticResource PageTitle}" />
+        <TextBlock Style="{StaticResource PageSubtitle}"
+                   Text="副屏主题决定小屏上的排版与配色；设置窗口本身始终保持 Windows 11 风格。" />
+
+        <TextBlock Text="副屏主题" Style="{StaticResource SectionTitle}" Margin="2,4,0,8" />
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,14">
+            <RadioButton x:Name="ThemeWin11"
+                         GroupName="PanelTheme"
+                         Style="{StaticResource ThemeCardRadio}"
+                         Tag="win11"
+                         Checked="OnThemeChecked">
+                <StackPanel Width="228">
+                    <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#0E1116">
+                        <Image x:Name="ThumbWin11" Stretch="UniformToFill" />
+                    </Border>
+                    <TextBlock Text="Windows 11" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
+                    <TextBlock Text="Fluent 卡片、系统强调色"
+                               FontSize="11"
+                               Margin="1,2,0,2"
+                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                </StackPanel>
+            </RadioButton>
+
+            <RadioButton x:Name="ThemeMac"
+                         GroupName="PanelTheme"
+                         Style="{StaticResource ThemeCardRadio}"
+                         Tag="mac"
+                         Checked="OnThemeChecked">
+                <StackPanel Width="228">
+                    <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#0E1116">
+                        <Image x:Name="ThumbMac" Stretch="UniformToFill" />
+                    </Border>
+                    <TextBlock Text="macOS（原版）" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
+                    <TextBlock Text="玻璃卡片、青蓝强调色"
+                               FontSize="11"
+                               Margin="1,2,0,2"
+                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                </StackPanel>
+            </RadioButton>
+        </StackPanel>
+
+        <TextBlock Text="深浅色" Style="{StaticResource SectionTitle}" Margin="2,8,0,8" />
+        <Border Style="{StaticResource Card}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="0,0,16,0">
+                    <TextBlock Text="应用深浅色" Style="{StaticResource RowTitle}" />
+                    <TextBlock Text="“跟随系统”使用 Windows 的“应用模式”设置，副屏与设置窗口同步。" Style="{StaticResource RowDescription}" />
+                </StackPanel>
+                <Border Grid.Column="1" Style="{StaticResource SegmentGroup}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="AppearanceSystem" GroupName="Appearance" Style="{StaticResource SegmentRadio}" Content="跟随系统" Tag="system" Checked="OnAppearanceChecked" />
+                        <RadioButton x:Name="AppearanceLight" GroupName="Appearance" Style="{StaticResource SegmentRadio}" Content="浅色" Tag="light" Checked="OnAppearanceChecked" />
+                        <RadioButton x:Name="AppearanceDark" GroupName="Appearance" Style="{StaticResource SegmentRadio}" Content="深色" Tag="dark" Checked="OnAppearanceChecked" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <TextBlock Text="强调色" Style="{StaticResource SectionTitle}" Margin="2,8,0,8" />
+        <Border Style="{StaticResource Card}">
+            <StackPanel>
+                <Grid>
+                    <StackPanel Margin="0,0,16,0">
+                        <TextBlock Text="强调色来源" Style="{StaticResource RowTitle}" />
+                        <TextBlock Text="Windows 11 主题使用系统强调色；也可以固定为下面的颜色之一。" Style="{StaticResource RowDescription}" />
+                    </StackPanel>
+                    <Border Grid.Column="1" Style="{StaticResource SegmentGroup}" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton x:Name="AccentSystem" GroupName="Accent" Style="{StaticResource SegmentRadio}" Content="跟随系统" Tag="system" Checked="OnAccentModeChecked" />
+                            <RadioButton x:Name="AccentFixed" GroupName="Accent" Style="{StaticResource SegmentRadio}" Content="固定颜色" Tag="fixed" Checked="OnAccentModeChecked" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <StackPanel x:Name="SwatchPanel" Orientation="Horizontal" />
+            </StackPanel>
+        </Border>
+
+        <TextBlock Margin="2,4,0,0"
+                   FontSize="11"
+                   TextWrapping="Wrap"
+                   Foreground="{DynamicResource TextTertiaryBrush}"
+                   Text="主题切换会立即重绘副屏；深浅色默认跟随系统，系统切换主题时自动更新。" />
+    </StackPanel>
+</UserControl>

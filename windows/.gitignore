@@ -1,0 +1,10 @@
+bin/
+obj/
+dist/
+.vs/
+*.user
+*.suo
+TestResults/
+
+# The macOS root ignores *.app bundles; retain the WPF source project.
+!src/VK03Panel.App/

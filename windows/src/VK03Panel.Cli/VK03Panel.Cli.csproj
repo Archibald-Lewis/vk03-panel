@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>VK03Panel.Cli</RootNamespace>
+    <AssemblyName>VK03Panel.Cli</AssemblyName>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VK03Panel.Core\VK03Panel.Core.csproj" />
+  </ItemGroup>
+
+</Project>

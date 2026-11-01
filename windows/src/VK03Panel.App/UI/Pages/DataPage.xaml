@@ -1,0 +1,165 @@
+<UserControl x:Class="VK03Panel.App.UI.Pages.DataPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel MaxWidth="820" HorizontalAlignment="Left">
+        <TextBlock Text="数据" Style="{StaticResource PageTitle}" />
+        <TextBlock Style="{StaticResource PageSubtitle}"
+                   Text="面板数据全部来自本机：CPU 负载与频率、内存、NVIDIA GPU 遥测，以及 AMD 处理器传感器。" />
+
+        <TextBlock Text="本机硬件与数据源" Style="{StaticResource SectionTitle}" Margin="2,4,0,8" />
+        <Border Style="{StaticResource Card}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="CPU" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="CpuText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="内存" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="MemoryText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="显卡" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="GpuText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="GPU 实时" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="GpuTelemetryText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="CPU 温度" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="TemperatureText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="CPU 温度来源" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="BridgeText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="媒体会话" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="MediaText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="系统音量" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="VolumeText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="触屏" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="TouchText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Text="AMD 处理器传感器" Style="{StaticResource SectionTitle}" Margin="2,8,0,8" />
+        <Border Style="{StaticResource Card}">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="AMD Ryzen Master SDK" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="AmdText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <Border Style="{StaticResource Divider}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="当前权限" Style="{StaticResource RowTitle}" />
+                    <TextBlock x:Name="ElevationText" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource RowDescription}" Margin="0" />
+                </Grid>
+                <TextBlock Margin="0,10,0,0"
+                           TextWrapping="Wrap"
+                           Style="{StaticResource RowDescription}"
+                           Text="AMD Ryzen Master 驱动只允许管理员访问。以管理员启动后，CPU 温度直接来自处理器传感器；HWiNFO 共享内存与 LibreHardwareMonitor 仍作为回退来源。开启开机自启时会注册管理员计划任务，登录后无需再次确认 UAC。" />
+                <Button x:Name="ElevateButton"
+                        Content="以管理员身份重启"
+                        Style="{StaticResource AccentButton}"
+                        HorizontalAlignment="Left"
+                        Margin="0,12,0,0"
+                        Click="OnElevateClicked" />
+            </StackPanel>
+        </Border>
+
+        <TextBlock Text="触屏修复" Style="{StaticResource SectionTitle}" Margin="2,8,0,8" />
+        <Border Style="{StaticResource Card}">
+            <StackPanel>
+                <TextBlock TextWrapping="Wrap" Style="{StaticResource RowDescription}" Margin="0,0,0,8"
+                           Text="触屏控制器（374a:a401）在部分系统上会以“问题代码 10”停止启动。修复会先重启设备；若仍失败，则移除并重新扫描该设备，使其重新安装 HID 驱动。" />
+                <TextBlock x:Name="RepairText"
+                           TextWrapping="Wrap"
+                           Style="{StaticResource RowDescription}"
+                           Margin="0,0,0,6"
+                           Text="尚未执行修复。" />
+                <TextBlock TextWrapping="Wrap"
+                           Style="{StaticResource RowDescription}"
+                           Margin="0,0,0,10"
+                           Foreground="{DynamicResource TextTertiaryBrush}"
+                           Text="若重启与重装驱动后仍是问题代码 10，说明 Windows 的 HID 驱动无法解析该触屏；可用 Zadig 把设备切换为 libusb-win32（USB 直读），本程序会自动接管并继续支持触控。" />
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="修复触屏（管理员）"
+                            Style="{StaticResource AccentButton}"
+                            Margin="0,0,8,0"
+                            Click="OnRepairTouchClicked" />
+                    <Button Content="查看触屏状态"
+                            Style="{StaticResource SubtleButton}"
+                            Margin="0,0,8,0"
+                            Click="OnTouchStatusClicked" />
+                    <Button Content="打开数据文件夹"
+                            Style="{StaticResource SubtleButton}"
+                            Click="OnOpenFolderClicked" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Orientation="Horizontal" Margin="2,6,0,0">
+            <Button Content="重新检测"
+                    Style="{StaticResource SubtleButton}"
+                    Click="OnRefreshClicked" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

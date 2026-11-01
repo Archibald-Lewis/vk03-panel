@@ -1,8 +1,21 @@
-# VK03 Panel for macOS
+# VK03 Panel
 
-[GitHub](https://github.com/Archibald-Lewis/vk03-panel-macos) · [Gitee](https://gitee.com/archibald-lewis/vk03-panel-macos) · [Companion project](https://github.com/Archibald-Lewis/stats-hackintosh-patches)
+[GitHub](https://github.com/Archibald-Lewis/vk03-panel) · [Gitee](https://gitee.com/archibald-lewis/vk03-panel-macos) · [Companion project](https://github.com/Archibald-Lewis/stats-hackintosh-patches)
 
-把 VK03 机箱上的 USB 小屏变成 macOS 监控与触控面板。
+把 VK03 机箱上的 USB 小屏变成 Windows / macOS 监控与触控面板。
+
+## 选择平台
+
+| 平台 | 源码与使用说明 | 构建入口 |
+|---|---|---|
+| Windows 11 | [Windows 版](windows/README.md) · .NET / WPF | `cd windows` 后运行 `./build.ps1` |
+| macOS 26 | 本页下方 · Swift / AppKit | 仓库根目录运行 `bash build.sh` |
+
+Windows 版已在 Ryzen 7 9700X + RTX 5070 / MCVKC03 实机验证；触屏使用 USB 直读，支持音量、播放控制和按住锁屏。当前硬件界面参考 Windows 11 任务管理器性能页。
+
+![Windows 深色界面，演示数据](windows/assets/demo-win11-dark.png)
+
+## macOS 版
 
 [English](README.en.md) · [构建说明](docs/BUILD.md) · [数据接口](docs/METRICS.md) · [来源与许可](THIRD_PARTY_NOTICES.md)
 
@@ -12,7 +25,7 @@ CPU 温度和频率、内存、GPU 负载、正在播放的音乐，再加上伸
 
 ## 预编译安装
 
-[下载 DMG 安装包](https://github.com/Archibald-Lewis/vk03-panel-macos/releases/latest) · [安装、签名与兼容性说明](docs/INSTALL.md)
+[下载 DMG 安装包](https://github.com/Archibald-Lewis/vk03-panel/releases/latest) · [安装、签名与兼容性说明](docs/INSTALL.md)
 
 提供 AMD64 / x86_64 版，实测 AMD Ryzen 7 9700X + RTX 5070 黑苹果，ad-hoc 签名、未经 Apple 公证。
 
