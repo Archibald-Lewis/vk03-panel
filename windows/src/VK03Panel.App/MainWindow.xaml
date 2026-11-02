@@ -140,6 +140,7 @@
                             </StackPanel>
                             <TextBlock x:Name="StatusDetail"
                                        Text=""
+                                       Visibility="Collapsed"
                                        FontSize="10"
                                        Margin="0,4,0,0"
                                        TextTrimming="CharacterEllipsis"

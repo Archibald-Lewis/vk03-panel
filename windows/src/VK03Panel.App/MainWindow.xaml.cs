@@ -73,9 +73,8 @@ public partial class MainWindow : Window
             StatusText.Text = status.PanelConnected
                 ? $"副屏在线 · {status.DataSource}"
                 : status.TransportMessage;
-            StatusDetail.Text = status.PanelConnected
-                ? $"{status.FramesSent} 帧 · {status.LastFrameMilliseconds:0.0} ms"
-                : status.LastError ?? "自动重连中";
+            StatusDetail.Text = status.LastError ?? (status.PanelConnected ? string.Empty : "自动重连中");
+            StatusDetail.Visibility = string.IsNullOrEmpty(StatusDetail.Text) ? Visibility.Collapsed : Visibility.Visible;
 
             if (!status.PanelConnected && status.LastError is null)
             {

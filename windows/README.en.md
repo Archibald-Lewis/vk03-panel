@@ -14,7 +14,7 @@ that also merges both visual languages into one app: the panel theme can be swit
 
 - Native .NET 9 / WPF application; the settings window follows Windows 11 design
   (Mica ambiance, 8 px cards, Segoe UI Variable, Fluent toggles, system light/dark and accent).
-- Four panel themes: Windows 11, macOS, Nebula instruments and Immersive now playing. Tap the clock or theme control on the physical screen to cycle through them.
+- Four panel themes: Windows 11, macOS, Nebula instruments and Immersive now playing. Windows 11 / macOS clocks and the Nebula theme control cycle through themes. Immersive leaves theme selection to settings or the tray menu.
 - Local monitoring only: CPU load/frequency, memory, NVIDIA GPU utilisation and temperature.
 - Now playing via the Windows media session (GSMTC), including artwork and progress.
 - Touch: mute, volume scrub, transport, hold-to-lock (HID and raw-USB backends).

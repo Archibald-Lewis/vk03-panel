@@ -33,10 +33,6 @@
                     <TextBlock Text="点击预览可模拟触控：静音、音量、切歌、按住锁屏"
                                FontSize="11"
                                Foreground="{DynamicResource TextTertiaryBrush}" />
-                    <TextBlock x:Name="FrameText"
-                               HorizontalAlignment="Right"
-                               FontSize="11"
-                               Foreground="{DynamicResource TextTertiaryBrush}" />
                 </Grid>
             </StackPanel>
         </Border>

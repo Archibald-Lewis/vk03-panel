@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-02 — Simplify settings and refine immersive playback
+
+- Remove frame counters and render timings from the settings sidebar and display preview; retain connection and error information.
+- Remove the Immersive theme-switch control and its touch target; theme selection remains available in settings and the tray.
+- Enlarge artwork, soften its cached background, replace gold decoration with neutral controls, and allow two title lines.
+- Hide an unavailable timeline and show volume numbers only during interaction.
+- Verify the existing 72 tests and offline renders of dark/light, long-title, missing-artwork and settings layouts.
+
 ## 2026-11-01 — Instrument and immersive playback themes
 
 - Add Nebula instruments and a cover-led Immersive now-playing theme, including dark and light appearances.

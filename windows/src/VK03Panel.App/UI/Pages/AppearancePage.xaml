@@ -4,7 +4,7 @@
     <StackPanel MaxWidth="820" HorizontalAlignment="Left">
         <TextBlock Text="外观" Style="{StaticResource PageTitle}" />
         <TextBlock Style="{StaticResource PageSubtitle}"
-                   Text="在这里选择主题；也可点按副屏时钟或“切换主题”按钮依次切换。" />
+                   Text="在这里选择副屏主题；切换后立即生效并保存。" />
 
         <TextBlock Text="副屏主题" Style="{StaticResource SectionTitle}" Margin="2,4,0,8" />
         <WrapPanel Margin="0,0,0,14">
@@ -52,7 +52,7 @@
                 <StackPanel Width="228">
                     <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#110E0A"><Image x:Name="ThumbImmersive" Stretch="UniformToFill" /></Border>
                     <TextBlock Text="沉浸播放" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
-                    <TextBlock Text="大封面、播放与进度控制" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <TextBlock Text="封面氛围、简洁播放控制" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
                 </StackPanel>
             </RadioButton>
         </WrapPanel>

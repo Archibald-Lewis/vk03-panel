@@ -49,7 +49,8 @@ public sealed class ThemeLayoutTests
             {
                 // The Windows 11 layout intentionally omits the ± buttons; the slider covers it.
                 Assert.True((themeId != PanelThemes.MacId && action is PanelAction.Quieter or PanelAction.Louder)
-                            || (themeId != PanelThemes.ImmersiveId && action == PanelAction.Seek));
+                            || (themeId != PanelThemes.ImmersiveId && action == PanelAction.Seek)
+                            || (themeId == PanelThemes.ImmersiveId && action == PanelAction.CycleTheme));
                 continue;
             }
 

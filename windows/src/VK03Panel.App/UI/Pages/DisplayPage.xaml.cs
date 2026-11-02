@@ -55,9 +55,6 @@ public partial class DisplayPage : UserControl, ISettingsPage
         ErrorText.Text = status.LastError ?? (status.PanelConnected
             ? "副屏工作正常；退出程序时可在“启动”页关闭屏幕。"
             : "接通副屏 USB 后会自动初始化；若厂商程序正在使用副屏，请先退出该程序。");
-        FrameText.Text = status.PanelConnected
-            ? $"已发送 {status.FramesSent} 帧 · {status.LastFrameMilliseconds:0.0} ms"
-            : string.Empty;
     }
 
     public void UpdatePreview(BitmapSource? preview)
