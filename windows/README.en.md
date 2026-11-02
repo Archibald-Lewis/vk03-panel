@@ -14,7 +14,7 @@ that also merges both visual languages into one app: the panel theme can be swit
 
 - Native .NET 9 / WPF application; the settings window follows Windows 11 design
   (Mica ambiance, 8 px cards, Segoe UI Variable, Fluent toggles, system light/dark and accent).
-- Four panel themes: Windows 11, macOS, Nebula instruments and Immersive now playing. Windows 11 / macOS clocks and the Nebula theme control cycle through themes. Immersive leaves theme selection to settings or the tray menu.
+- Six panel themes: Windows 11, macOS, Nebula, Immersive now playing, Cartoon Sketch and Anime. Nebula uses a GPT Image space plate, Sketch uses an original crayon headphone cat, and Anime pairs an original headphone character with a music-first layout. All support dark/light appearance. Windows 11 / macOS clocks and the Nebula theme control cycle through themes; other themes use settings or the tray menu.
 - Local monitoring only: CPU load/frequency, memory, NVIDIA GPU utilisation and temperature.
 - Now playing via the Windows media session (GSMTC), including artwork and progress.
 - Touch: mute, volume scrub, transport, hold-to-lock (HID and raw-USB backends).
@@ -47,7 +47,7 @@ self-contained build to `dist/VK03Panel/`. See [docs/BUILD.md](docs/BUILD.md).
 ```text
 VK03Panel.exe --background             start in the tray
 VK03Panel.exe --self-test [--frame]    device / driver / chip / EDID self-test
-VK03Panel.exe --demo <png> [--theme mac|win11|nebula|immersive] [--dark|--light]
+VK03Panel.exe --demo <png> [--theme mac|win11|nebula|immersive|sketch|anime] [--dark|--light]
 VK03Panel.exe --render <png>           render current machine data
 VK03Panel.exe --diagnose               print a full diagnostic summary
 ```

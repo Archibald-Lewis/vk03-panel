@@ -61,6 +61,10 @@ public sealed class NewThemeTests
     [InlineData(PanelThemes.NebulaId, false)]
     [InlineData(PanelThemes.ImmersiveId, true)]
     [InlineData(PanelThemes.ImmersiveId, false)]
+    [InlineData(PanelThemes.SketchId, true)]
+    [InlineData(PanelThemes.SketchId, false)]
+    [InlineData(PanelThemes.AnimeId, true)]
+    [InlineData(PanelThemes.AnimeId, false)]
     public void NewThemesRenderWithMissingDataAndWithArtwork(string id, bool dark)
     {
         OnSta(() =>
@@ -119,6 +123,33 @@ public sealed class NewThemeTests
             var frame = PanelRenderer.Render(new ImmersiveTheme(), new PanelViewModel
                 { Media = new PanelMediaState { Artwork = shared, HasSession = true } }, 90);
             Assert.Equal(255, frame.Bgra[(180 * 960 + 180) * 4 + 2]);
+        });
+    }
+
+    [Fact]
+    public void EmbeddedThemeArtIsDetachedBeforeSharingBetweenSettingsAndWorkerThreads()
+    {
+        var names = new[] { "nebula-space.png", "sketch-cat-light.png", "sketch-cat-dark.png", "anime-night.png" };
+        OnSta(() =>
+        {
+            foreach (var name in names)
+            {
+                var art = ThemeArtwork.Get(name);
+                Assert.True(art.IsFrozen);
+                Assert.Equal(960, art.PixelWidth);
+                Assert.Equal(360, art.PixelHeight);
+            }
+        });
+        OnSta(() =>
+        {
+            foreach (var name in names)
+            {
+                var brush = new ImageBrush(ThemeArtwork.Get(name));
+                brush.Freeze(); // Decoder affinity used to fail specifically at this step.
+            }
+            foreach (var theme in new[] { PanelThemes.Nebula, PanelThemes.Sketch, PanelThemes.Anime })
+                foreach (var rotation in new[] { 0, 90, 180, 270 })
+                    Assert.Equal(960 * 360 * 3, PanelRenderer.RenderEncoded(theme, new PanelViewModel(), rotation).Bgr.Length);
         });
     }
 

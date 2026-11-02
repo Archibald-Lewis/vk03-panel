@@ -11,6 +11,8 @@ public sealed class TrayIcon : IDisposable
     private readonly ToolStripMenuItem _macItem;
     private readonly ToolStripMenuItem _nebulaItem;
     private readonly ToolStripMenuItem _immersiveItem;
+    private readonly ToolStripMenuItem _sketchItem;
+    private readonly ToolStripMenuItem _animeItem;
     private readonly ToolStripMenuItem _pauseItem;
     private readonly Icon _icon;
 
@@ -49,6 +51,12 @@ public sealed class TrayIcon : IDisposable
         _immersiveItem.Click += (_, _) => ThemeSelected?.Invoke("immersive");
         themeMenu.DropDownItems.Add(_nebulaItem);
         themeMenu.DropDownItems.Add(_immersiveItem);
+        _sketchItem = new ToolStripMenuItem("手绘卡通") { CheckOnClick = false };
+        _animeItem = new ToolStripMenuItem("二次元") { CheckOnClick = false };
+        _sketchItem.Click += (_, _) => ThemeSelected?.Invoke("sketch");
+        _animeItem.Click += (_, _) => ThemeSelected?.Invoke("anime");
+        themeMenu.DropDownItems.Add(_sketchItem);
+        themeMenu.DropDownItems.Add(_animeItem);
         menu.Items.Add(themeMenu);
 
         _pauseItem = new ToolStripMenuItem("暂停刷新") { CheckOnClick = true };
@@ -78,6 +86,8 @@ public sealed class TrayIcon : IDisposable
         _macItem.Checked = string.Equals(themeId, "mac", StringComparison.OrdinalIgnoreCase);
         _nebulaItem.Checked = themeId == "nebula";
         _immersiveItem.Checked = themeId == "immersive";
+        _sketchItem.Checked = themeId == "sketch";
+        _animeItem.Checked = themeId == "anime";
         _pauseItem.Checked = paused;
     }
 

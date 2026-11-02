@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-02 — Illustrated themes and Nebula redesign
+
+- Redesign Nebula with a generated deep-space plate, a single teal instrument palette, and one media rail.
+- Add Cartoon Sketch with an original headphone cat, crayon paper artwork, deterministic hand-drawn frames, and separate dark/light artwork.
+- Add Anime with an original adult headphone character, a music-first layout, and CPU / memory / GPU summaries.
+- Register all six themes in settings, tray selection, theme cycling, CLI help and build previews.
+- Embed the generated artwork and cache detached frozen pixels at panel resolution; no runtime image-generation service is required.
+- Document the built-in GPT Image prompts alongside the production assets.
+- Verify 85 tests, six settings thumbnails, dark/light and pressed states, all rotation encoders, and real-panel Nebula output.
+
 ## 2026-11-02 — Simplify settings and refine immersive playback
 
 - Remove frame counters and render timings from the settings sidebar and display preview; retain connection and error information.

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Management" Version="9.0.0" />
+    <EmbeddedResource Include="../../assets/themes/*.png" LogicalName="VK03Panel.Core.ThemeArt.%(Filename)%(Extension)" />
   </ItemGroup>
 
 

@@ -12,6 +12,8 @@ public sealed class ThemeLayoutTests
     [InlineData(PanelThemes.MacId)]
     [InlineData(PanelThemes.NebulaId)]
     [InlineData(PanelThemes.ImmersiveId)]
+    [InlineData(PanelThemes.SketchId)]
+    [InlineData(PanelThemes.AnimeId)]
     public void TouchTargetsStaySeparateAndHaveUsableEdges(string themeId)
     {
         var theme = PanelThemes.Get(themeId);
@@ -34,6 +36,8 @@ public sealed class ThemeLayoutTests
     [InlineData(PanelThemes.MacId)]
     [InlineData(PanelThemes.NebulaId)]
     [InlineData(PanelThemes.ImmersiveId)]
+    [InlineData(PanelThemes.SketchId)]
+    [InlineData(PanelThemes.AnimeId)]
     public void EveryActionHasUsableBounds(string themeId)
     {
         var theme = PanelThemes.Get(themeId);
@@ -50,7 +54,7 @@ public sealed class ThemeLayoutTests
                 // The Windows 11 layout intentionally omits the ± buttons; the slider covers it.
                 Assert.True((themeId != PanelThemes.MacId && action is PanelAction.Quieter or PanelAction.Louder)
                             || (themeId != PanelThemes.ImmersiveId && action == PanelAction.Seek)
-                            || (themeId == PanelThemes.ImmersiveId && action == PanelAction.CycleTheme));
+                            || (themeId is PanelThemes.ImmersiveId or PanelThemes.SketchId or PanelThemes.AnimeId && action == PanelAction.CycleTheme));
                 continue;
             }
 
@@ -65,6 +69,8 @@ public sealed class ThemeLayoutTests
     [InlineData(PanelThemes.MacId)]
     [InlineData(PanelThemes.NebulaId)]
     [InlineData(PanelThemes.ImmersiveId)]
+    [InlineData(PanelThemes.SketchId)]
+    [InlineData(PanelThemes.AnimeId)]
     public void HitTest_ResolvesCenterOfEachAction(string themeId)
     {
         var theme = PanelThemes.Get(themeId);
@@ -85,6 +91,8 @@ public sealed class ThemeLayoutTests
     [InlineData(PanelThemes.MacId)]
     [InlineData(PanelThemes.NebulaId)]
     [InlineData(PanelThemes.ImmersiveId)]
+    [InlineData(PanelThemes.SketchId)]
+    [InlineData(PanelThemes.AnimeId)]
     public void SliderSitsInsideVolumeBounds(string themeId)
     {
         var theme = PanelThemes.Get(themeId);

@@ -45,7 +45,7 @@
                 <StackPanel Width="228">
                     <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#07101A"><Image x:Name="ThumbNebula" Stretch="UniformToFill" /></Border>
                     <TextBlock Text="星环" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
-                    <TextBlock Text="发光仪表、负载峰值" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <TextBlock Text="深空仪表、统一媒体栏" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
                 </StackPanel>
             </RadioButton>
             <RadioButton x:Name="ThemeImmersive" GroupName="PanelTheme" Style="{StaticResource ThemeCardRadio}" Tag="immersive" Checked="OnThemeChecked" Margin="0,10,10,0">
@@ -53,6 +53,20 @@
                     <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#110E0A"><Image x:Name="ThumbImmersive" Stretch="UniformToFill" /></Border>
                     <TextBlock Text="沉浸播放" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
                     <TextBlock Text="封面氛围、简洁播放控制" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton x:Name="ThemeSketch" GroupName="PanelTheme" Style="{StaticResource ThemeCardRadio}" Tag="sketch" Checked="OnThemeChecked" Margin="0,10,10,0">
+                <StackPanel Width="228">
+                    <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#FFF8E9"><Image x:Name="ThumbSketch" Stretch="UniformToFill" /></Border>
+                    <TextBlock Text="手绘卡通" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
+                    <TextBlock Text="耳机猫咪、蜡笔线条" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
+                </StackPanel>
+            </RadioButton>
+            <RadioButton x:Name="ThemeAnime" GroupName="PanelTheme" Style="{StaticResource ThemeCardRadio}" Tag="anime" Checked="OnThemeChecked" Margin="0,10,10,0">
+                <StackPanel Width="228">
+                    <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#112139"><Image x:Name="ThumbAnime" Stretch="UniformToFill" /></Border>
+                    <TextBlock Text="二次元" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
+                    <TextBlock Text="原创角色、夜景与音乐" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
                 </StackPanel>
             </RadioButton>
         </WrapPanel>

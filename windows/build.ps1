@@ -25,7 +25,7 @@ try {
 
     if (-not $SkipAssets) {
         $cli = Join-Path $root "src\VK03Panel.Cli\bin\$Configuration\net9.0-windows10.0.19041.0\VK03Panel.Cli.exe"
-        foreach ($theme in @('win11', 'mac', 'nebula', 'immersive')) {
+        foreach ($theme in @('win11', 'mac', 'nebula', 'immersive', 'sketch', 'anime')) {
             foreach ($appearance in @('dark', 'light')) {
                 & $cli --demo (Join-Path $root "assets\demo-$theme-$appearance.png") --theme $theme "--$appearance"
                 Assert-CommandSucceeded 'Demo rendering'

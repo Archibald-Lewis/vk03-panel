@@ -49,7 +49,7 @@ public static class ConsoleCommands
         output.WriteLine("  VK03Panel.exe --background        启动后最小化到托盘");
         output.WriteLine("  VK03Panel.exe --self-test [--frame] [--hold 秒] [--rotation 0|90|180|270]");
         output.WriteLine("                                    设备/驱动/芯片/EDID 自检；--frame 实际点亮");
-        output.WriteLine("  VK03Panel.exe --demo <png> [--theme mac|win11|nebula|immersive] [--dark|--light]");
+        output.WriteLine("  VK03Panel.exe --demo <png> [--theme mac|win11|nebula|immersive|sketch|anime] [--dark|--light]");
         output.WriteLine("  VK03Panel.exe --render <png>     使用本机真实数据渲染预览图");
         output.WriteLine("  VK03Panel.exe --diagnose         输出数据源与设备诊断摘要");
         output.WriteLine("  VK03Panel.exe --amd-dump         读取 AMD Ryzen Master SDK 并导出传感器明细（需管理员）");

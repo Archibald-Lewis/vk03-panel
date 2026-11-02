@@ -12,7 +12,7 @@ public static class DemoCommand
         var index = Array.FindIndex(args, argument => argument.Equals("--demo", StringComparison.OrdinalIgnoreCase));
         if (index < 0 || index + 1 >= args.Length)
         {
-            output.WriteLine("用法：--demo <输出.png> [--theme mac|win11|nebula|immersive] [--dark|--light] [--rotation 0|90|180|270]");
+            output.WriteLine("用法：--demo <输出.png> [--theme mac|win11|nebula|immersive|sketch|anime] [--dark|--light] [--rotation 0|90|180|270]");
             return 1;
         }
 

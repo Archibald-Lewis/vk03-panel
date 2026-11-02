@@ -36,6 +36,8 @@ public partial class AppearancePage : UserControl, ISettingsPage, IThemeAware
         ThemeMac.IsChecked = string.Equals(store.Config.ThemeId, "mac", StringComparison.OrdinalIgnoreCase);
         ThemeNebula.IsChecked = store.Config.ThemeId == PanelThemes.NebulaId;
         ThemeImmersive.IsChecked = store.Config.ThemeId == PanelThemes.ImmersiveId;
+        ThemeSketch.IsChecked = store.Config.ThemeId == PanelThemes.SketchId;
+        ThemeAnime.IsChecked = store.Config.ThemeId == PanelThemes.AnimeId;
 
         switch (store.Config.Appearance)
         {
@@ -116,6 +118,11 @@ public partial class AppearancePage : UserControl, ISettingsPage, IThemeAware
             nebula.Bitmap.Freeze(); immersive.Bitmap.Freeze();
             ThumbNebula.Source = nebula.Bitmap;
             ThumbImmersive.Source = immersive.Bitmap;
+            var sketch = PanelRenderer.Render(PanelThemes.Sketch, model, 90);
+            var anime = PanelRenderer.Render(PanelThemes.Anime, model, 90);
+            sketch.Bitmap.Freeze(); anime.Bitmap.Freeze();
+            ThumbSketch.Source = sketch.Bitmap;
+            ThumbAnime.Source = anime.Bitmap;
         }
         catch (Exception)
         {

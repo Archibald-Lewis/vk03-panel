@@ -7,6 +7,8 @@ public static class PanelThemes
     public const string NebulaId = "nebula";
     public const string ImmersiveId = "immersive";
     public const string Win11Id = "win11";
+    public const string SketchId = "sketch";
+    public const string AnimeId = "anime";
 
     public static IPanelTheme Mac { get; } = new MacTheme();
 
@@ -14,7 +16,9 @@ public static class PanelThemes
 
     public static IPanelTheme Nebula { get; } = new NebulaTheme();
     public static IPanelTheme Immersive { get; } = new ImmersiveTheme();
-    public static IReadOnlyList<IPanelTheme> All { get; } = new[] { Win11, Mac, Nebula, Immersive };
+    public static IPanelTheme Sketch { get; } = new SketchTheme();
+    public static IPanelTheme Anime { get; } = new AnimeTheme();
+    public static IReadOnlyList<IPanelTheme> All { get; } = new[] { Win11, Mac, Nebula, Immersive, Sketch, Anime };
 
     public static string NextId(string? id)
     {
