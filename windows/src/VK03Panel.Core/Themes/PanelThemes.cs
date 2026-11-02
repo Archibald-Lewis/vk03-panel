@@ -20,12 +20,6 @@ public static class PanelThemes
     public static IPanelTheme Anime { get; } = new AnimeTheme();
     public static IReadOnlyList<IPanelTheme> All { get; } = new[] { Win11, Mac, Nebula, Immersive, Sketch, Anime };
 
-    public static string NextId(string? id)
-    {
-        var index = All.ToList().FindIndex(theme => string.Equals(theme.Id, id, StringComparison.OrdinalIgnoreCase));
-        return All[(index + 1) % All.Count].Id;
-    }
-
     public static IPanelTheme Get(string? id)
     {
         if (string.IsNullOrWhiteSpace(id))

@@ -108,8 +108,6 @@ public sealed class PanelWorker : IDisposable, ITouchSink
             this);
     }
 
-    public event Action? CycleThemeRequested;
-
     public event Action<PanelWorkerStatus>? StatusChanged;
 
     public event Action<BitmapSource>? PreviewUpdated;
@@ -221,9 +219,6 @@ public sealed class PanelWorker : IDisposable, ITouchSink
     {
         switch (action)
         {
-            case PanelAction.CycleTheme:
-                CycleThemeRequested?.Invoke();
-                break;
             case PanelAction.Mute:
                 var current = _audio.Read();
                 _audio.SetMuted(!(current?.Muted ?? false));

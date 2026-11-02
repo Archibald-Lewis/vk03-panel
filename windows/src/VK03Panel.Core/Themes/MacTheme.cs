@@ -34,7 +34,6 @@ public sealed class MacTheme : IPanelTheme
     public double SliderWidth => SliderTrack.Width;
     public Rect Bounds(PanelAction action) => action switch
     {
-        PanelAction.CycleTheme => ClockCard,
         PanelAction.Mute => MuteBounds,
         PanelAction.Quieter => QuieterBounds,
         PanelAction.Volume => VolumeBounds,

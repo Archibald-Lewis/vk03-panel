@@ -45,7 +45,7 @@
                 <StackPanel Width="228">
                     <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#07101A"><Image x:Name="ThumbNebula" Stretch="UniformToFill" /></Border>
                     <TextBlock Text="星环" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
-                    <TextBlock Text="深空仪表、统一媒体栏" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <TextBlock Text="精密双表、实体按键" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
                 </StackPanel>
             </RadioButton>
             <RadioButton x:Name="ThemeImmersive" GroupName="PanelTheme" Style="{StaticResource ThemeCardRadio}" Tag="immersive" Checked="OnThemeChecked" Margin="0,10,10,0">
@@ -59,14 +59,14 @@
                 <StackPanel Width="228">
                     <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#FFF8E9"><Image x:Name="ThumbSketch" Stretch="UniformToFill" /></Border>
                     <TextBlock Text="手绘卡通" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
-                    <TextBlock Text="耳机猫咪、蜡笔线条" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <TextBlock Text="卡通指针表、拼贴便签" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
                 </StackPanel>
             </RadioButton>
             <RadioButton x:Name="ThemeAnime" GroupName="PanelTheme" Style="{StaticResource ThemeCardRadio}" Tag="anime" Checked="OnThemeChecked" Margin="0,10,10,0">
                 <StackPanel Width="228">
                     <Border CornerRadius="4" Height="92" ClipToBounds="True" Background="#112139"><Image x:Name="ThumbAnime" Stretch="UniformToFill" /></Border>
                     <TextBlock Text="二次元" FontSize="13" FontWeight="SemiBold" Margin="1,8,0,0" />
-                    <TextBlock Text="原创角色、夜景与音乐" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
+                    <TextBlock Text="唱片封套、漫画播放器" FontSize="11" Margin="1,2,0,2" Foreground="{DynamicResource TextSecondaryBrush}" />
                 </StackPanel>
             </RadioButton>
         </WrapPanel>

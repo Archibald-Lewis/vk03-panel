@@ -65,7 +65,6 @@ public partial class App : System.Windows.Application
         _theme.Apply(_store.Config);
 
         _worker = new PanelWorker(_store);
-        _worker.CycleThemeRequested += () => Dispatcher.BeginInvoke(() => ApplyConfig(config => config.ThemeId = PanelThemes.NextId(config.ThemeId)));
         _window = new MainWindow(_worker, _store, _theme);
         _tray = new TrayIcon(_store.Config.ThemeId, _worker.Paused);
         _tray.OpenSettingsRequested += ShowSettings;

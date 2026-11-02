@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-02 — Native theme controls and desktop-only theme selection
+
+- Redraw Nebula as two precision instruments with metal bezels, calibrated scales, segmented memory and physical transport keys.
+- Redraw Cartoon Sketch with toy needle gauges, taped notes, a flower play key, hand-inked buttons and pencil volume fill.
+- Redraw Anime with a vinyl sleeve, cut-paper player, slanted keys, telemetry ribbons and a dedicated character frame.
+- Use live geometry for gauges, controls and pressed-state displacement; keep the generated illustrations as supporting artwork.
+- Remove theme switching from every physical-screen layout, including hidden Windows/macOS clock targets; keep direct theme selection in desktop settings and the tray.
+- Remove the cycling action, callback and registry helper; add regression checks for the former touch targets and direct selection of all six themes.
+- Verify 88 tests, dark/light appearances, six settings thumbnails, long-text and pressed/muted states.
+
 ## 2026-11-02 — Illustrated themes and Nebula redesign
 
 - Redesign Nebula with a generated deep-space plate, a single teal instrument palette, and one media rail.

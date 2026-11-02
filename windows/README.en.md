@@ -14,7 +14,7 @@ that also merges both visual languages into one app: the panel theme can be swit
 
 - Native .NET 9 / WPF application; the settings window follows Windows 11 design
   (Mica ambiance, 8 px cards, Segoe UI Variable, Fluent toggles, system light/dark and accent).
-- Six panel themes: Windows 11, macOS, Nebula, Immersive now playing, Cartoon Sketch and Anime. Nebula uses a GPT Image space plate, Sketch uses an original crayon headphone cat, and Anime pairs an original headphone character with a music-first layout. All support dark/light appearance. Windows 11 / macOS clocks and the Nebula theme control cycle through themes; other themes use settings or the tray menu.
+- Six panel themes: Windows 11, macOS, Nebula, Immersive now playing, Cartoon Sketch and Anime. Nebula has precision CPU/GPU dials and physical transport keys; Sketch uses toy needle gauges, taped notes, a flower play key and pencil volume fill; Anime uses a cut-paper player, vinyl sleeve, slanted keys and manga telemetry ribbons. GPT Image artwork complements the live WPF controls. All support dark/light appearance. Theme selection is available only in desktop Appearance settings or the tray menu. The physical screen has no theme-switch buttons or hidden clock actions.
 - Local monitoring only: CPU load/frequency, memory, NVIDIA GPU utilisation and temperature.
 - Now playing via the Windows media session (GSMTC), including artwork and progress.
 - Touch: mute, volume scrub, transport, hold-to-lock (HID and raw-USB backends).

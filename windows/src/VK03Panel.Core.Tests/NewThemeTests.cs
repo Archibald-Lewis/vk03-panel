@@ -12,20 +12,27 @@ namespace VK03Panel.Core.Tests;
 public sealed class NewThemeTests
 {
     [Fact]
-    public void ThemeCycleVisitsAllThemesAndReturnsToStart()
+    public void AllThemesHaveUniqueIdsAndCanBeSelectedDirectly()
     {
-        var id = PanelThemes.Win11Id;
-        var visited = new HashSet<string>();
-        for (var i = 0; i < PanelThemes.All.Count; i++)
+        var ids = new HashSet<string>();
+        foreach (var theme in PanelThemes.All)
         {
-            Assert.True(visited.Add(id));
-            var config = new PanelConfig { ThemeId = id }; config.Sanitize();
-            Assert.Equal(id, config.ThemeId);
-            id = PanelThemes.NextId(id);
+            Assert.True(ids.Add(theme.Id));
+            var config = new PanelConfig { ThemeId = theme.Id.ToUpperInvariant() };
+            config.Sanitize();
+            Assert.Equal(theme.Id, config.ThemeId);
+            Assert.Same(theme, PanelThemes.Get(config.ThemeId));
         }
-        Assert.Equal(PanelThemes.Win11Id, id);
-        Assert.Equal(PanelThemes.All.Count, visited.Count);
-        Assert.Equal(PanelThemes.MacId, PanelThemes.NextId("WIN11"));
+        Assert.Equal(6, ids.Count);
+    }
+
+    [Theory]
+    [InlineData(PanelThemes.Win11Id, 104, 100)]
+    [InlineData(PanelThemes.MacId, 144, 94)]
+    [InlineData(PanelThemes.NebulaId, 804, 52)]
+    public void FormerThemeSwitchEntrancesHaveNoTouchAction(string id, double x, double y)
+    {
+        Assert.Null(PanelThemes.Get(id).HitTest(new Point(x, y)));
     }
 
     [Theory]

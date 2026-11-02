@@ -29,7 +29,6 @@ public sealed class Win11Theme : IPanelTheme
 
     public Rect Bounds(PanelAction action) => action switch
     {
-        PanelAction.CycleTheme => new Rect(28, 48, 152, 104),
         PanelAction.Mute => MuteBounds,
         PanelAction.Volume => VolumeBounds,
         PanelAction.Previous => PreviousBounds,
